@@ -3,22 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Родовая навигация — самостоятельная расчётная система для исследования повторяющихся семейных тем." />
-  <title>Родовая навигация — карта семейных тем</title>
+  <meta name="description" content="Родовая навигация — авторская многослойная система для анализа повторяющихся семейных тем по датам рождения." />
+  <meta name="theme-color" content="#f7f3eb" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <title>Родовая навигация — карта семьи и повторяющихся сценариев</title>
   <style>
     :root {
-      --ink: #18231f;
-      --muted: #5f6c65;
-      --line: #dce3dd;
-      --paper: #f7f6f0;
-      --surface: #ffffff;
-      --forest: #1f4b3a;
-      --forest-dark: #15352a;
-      --sage: #dce9df;
-      --clay: #b26042;
-      --sand: #f0e8d6;
-      --gold: #c99a4d;
-      --shadow: 0 18px 45px rgba(20, 49, 39, .10);
+      --ink: #17261f;
+      --muted: #66736b;
+      --forest: #1b5a4a;
+      --forest-dark: #134538;
+      --forest-soft: #e6f0ea;
+      --gold: #bd9445;
+      --gold-soft: #f5eddc;
+      --paper: #f7f3eb;
+      --surface: #fffdf9;
+      --surface-alt: #f2f6f1;
+      --line: #dbe5dc;
+      --clay: #ad5f46;
+      --lavender: #eee8f3;
+      --shadow: 0 18px 55px rgba(28, 68, 55, .09);
       --radius-xl: 30px;
       --radius-lg: 22px;
       --radius-md: 14px;
@@ -31,360 +35,219 @@
       margin: 0;
       color: var(--ink);
       background:
-        radial-gradient(circle at 80% -10%, rgba(201,154,77,.18), transparent 24rem),
-        linear-gradient(180deg, #faf9f4 0%, var(--paper) 36%, #f2f5f1 100%);
+        radial-gradient(circle at 88% -4%, rgba(189,148,69,.13), transparent 23rem),
+        linear-gradient(180deg, #fbf9f3 0%, var(--paper) 44%, #f5f8f4 100%);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.5;
+      line-height: 1.52;
     }
-
+    a { color: inherit; }
     button, input, select { font: inherit; }
     button { cursor: pointer; }
-    a { color: inherit; }
+    h1, h2, h3, h4, p { margin-top: 0; }
+    .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
 
-    .wrap { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
-
+    /* Header */
     .site-header {
       position: sticky;
       top: 0;
-      z-index: 20;
-      border-bottom: 1px solid rgba(220,227,221,.8);
-      background: rgba(250,249,244,.88);
+      z-index: 40;
+      border-bottom: 1px solid rgba(210,222,212,.85);
+      background: rgba(251,249,243,.92);
       backdrop-filter: blur(15px);
     }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      min-height: 74px;
-      gap: 20px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 11px;
-      text-decoration: none;
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 700;
-      letter-spacing: -.02em;
-      font-size: 20px;
-    }
-
-    .brand-mark {
-      position: relative;
-      width: 30px;
-      height: 30px;
-      border: 1.5px solid var(--forest);
-      border-radius: 50%;
-    }
-    .brand-mark::before,
-    .brand-mark::after {
-      content: "";
-      position: absolute;
-      inset: 5px;
-      border: 1px solid var(--gold);
-      border-radius: 50%;
-    }
-    .brand-mark::after { inset: 10px; background: var(--forest); border: 0; }
-
+    .header-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font-family: Georgia, "Times New Roman", serif; font-weight: 700; font-size: 20px; letter-spacing: -.025em; }
+    .brand-mark { width: 32px; height: 32px; flex: 0 0 auto; }
     .header-actions { display: flex; align-items: center; gap: 18px; }
     .header-link { text-decoration: none; color: var(--muted); font-size: 14px; }
     .header-link:hover { color: var(--forest); }
-
-    .button {
-      border: 0;
-      border-radius: 999px;
-      padding: 12px 18px;
-      font-weight: 720;
-      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
-    }
+    .button { display: inline-flex; justify-content: center; align-items: center; gap: 8px; border: 0; border-radius: 999px; padding: 12px 18px; font-size: 14px; font-weight: 760; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease, background .18s ease; }
     .button:hover { transform: translateY(-1px); }
-    .button-primary { color: #fff; background: var(--forest); box-shadow: 0 8px 20px rgba(31,75,58,.18); }
-    .button-primary:hover { background: var(--forest-dark); box-shadow: 0 11px 25px rgba(31,75,58,.23); }
-    .button-secondary { color: var(--forest); background: transparent; border: 1px solid #b8c8bd; }
-    .button-secondary:hover { background: #edf4ee; }
-    .button-ghost { padding: 0; background: transparent; color: var(--forest); }
+    .button-primary { background: var(--forest); color: #fff; box-shadow: 0 8px 18px rgba(27,90,74,.18); }
+    .button-primary:hover { background: var(--forest-dark); box-shadow: 0 12px 25px rgba(27,90,74,.23); }
+    .button-secondary { color: var(--forest); background: #fff; border: 1px solid #b9cdbf; }
+    .button-secondary:hover { background: var(--forest-soft); }
 
-    .hero { padding: 86px 0 58px; }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(340px, .85fr);
-      gap: clamp(36px, 7vw, 90px);
-      align-items: center;
-    }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 11px;
-      color: var(--forest);
-      background: var(--sage);
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 780;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
+    /* Hero */
+    .hero { padding: 82px 0 58px; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(370px, .95fr); gap: clamp(38px, 7vw, 92px); align-items: center; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 11px; border-radius: 999px; background: var(--forest-soft); color: var(--forest); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
     .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
-
-    h1, h2, h3, p { margin-top: 0; }
-    h1 {
-      max-width: 780px;
-      margin: 18px 0 22px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 500;
-      font-size: clamp(43px, 6vw, 76px);
-      line-height: 1.02;
-      letter-spacing: -.045em;
-    }
-    .hero h1 em { color: var(--forest); font-style: normal; }
-    .hero-copy { max-width: 660px; color: var(--muted); font-size: 18px; }
-    .hero-cta { display: flex; align-items: center; gap: 15px; margin-top: 30px; flex-wrap: wrap; }
+    h1 { margin: 18px 0 22px; max-width: 760px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(45px, 5.6vw, 75px); font-weight: 500; line-height: 1.035; letter-spacing: -.048em; }
+    h1 em { color: var(--forest); font-style: normal; }
+    .hero-copy { max-width: 670px; color: var(--muted); font-size: 18px; }
+    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 28px; }
     .microcopy { color: var(--muted); font-size: 13px; }
-    .hero-points { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 31px; }
-    .hero-point { padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.48); color: #415047; font-size: 13px; }
+    .hero-points { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 29px; }
+    .hero-point { padding: 8px 11px; color: #4b5d53; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.58); font-size: 12px; }
 
-    .hero-card {
-      position: relative;
-      min-height: 435px;
-      padding: 28px;
-      overflow: hidden;
-      border: 1px solid rgba(177,196,183,.62);
-      border-radius: var(--radius-xl);
-      color: #f7faf6;
-      background:
-        radial-gradient(circle at 16% 14%, rgba(226,191,111,.36), transparent 9rem),
-        radial-gradient(circle at 86% 78%, rgba(97,160,131,.28), transparent 13rem),
-        linear-gradient(145deg, #18372d 0%, #285640 53%, #16372c 100%);
-      box-shadow: var(--shadow);
-    }
-    .hero-card::before {
-      content: "";
-      position: absolute;
-      width: 320px;
-      height: 320px;
-      border: 1px solid rgba(244,239,214,.26);
-      border-radius: 50%;
-      top: 93px;
-      left: 57px;
-      box-shadow: 0 0 0 32px rgba(244,239,214,.055), 0 0 0 64px rgba(244,239,214,.03);
-    }
-    .hero-card::after {
-      content: "";
-      position: absolute;
-      width: 105px;
-      height: 105px;
-      border: 1px solid rgba(231,199,124,.46);
-      border-radius: 50%;
-      top: 174px;
-      left: 165px;
-      box-shadow: 0 0 0 12px rgba(231,199,124,.08);
-    }
-    .card-topline { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; color: rgba(255,255,255,.74); font-size: 13px; }
-    .card-title { position: relative; z-index: 1; margin-top: 55px; font-family: Georgia, "Times New Roman", serif; font-size: 28px; letter-spacing: -.025em; }
-    .card-flow { position: relative; z-index: 1; display: grid; gap: 17px; margin-top: 28px; }
-    .flow-row { display: flex; align-items: center; gap: 10px; }
-    .flow-node { width: 41px; height: 41px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.34); border-radius: 50%; background: rgba(255,255,255,.09); font-family: Georgia, "Times New Roman", serif; font-size: 20px; }
-    .flow-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(246,242,218,.82), rgba(246,242,218,.18)); }
-    .flow-text { min-width: 108px; color: rgba(255,255,255,.85); font-size: 13px; }
-    .card-caption { position: absolute; z-index: 1; right: 28px; bottom: 23px; max-width: 250px; color: rgba(255,255,255,.73); font-size: 12px; line-height: 1.45; text-align: right; }
+    .layer-map { padding: 25px; border: 1px solid #d6e2d7; border-radius: var(--radius-xl); background: linear-gradient(145deg, #fbfdfa 0%, #edf5ee 100%); box-shadow: var(--shadow); }
+    .layer-map-head { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 18px; }
+    .layer-map-head span { color: var(--forest); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .layer-map-head strong { color: var(--muted); font-size: 12px; font-weight: 650; }
+    .layer-stack { display: grid; gap: 10px; }
+    .layer-row { display: grid; grid-template-columns: 38px minmax(0,1fr) auto; gap: 12px; align-items: center; padding: 12px 13px; border: 1px solid rgba(203,219,205,.92); border-radius: 14px; background: rgba(255,255,255,.72); }
+    .layer-index { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: var(--forest); color: #fff; font-family: Georgia, "Times New Roman", serif; font-size: 16px; }
+    .layer-row:nth-child(2) .layer-index { background: #367265; }
+    .layer-row:nth-child(3) .layer-index { background: #5d7a66; }
+    .layer-row:nth-child(4) .layer-index { background: #8b754a; }
+    .layer-row:nth-child(5) .layer-index { background: #89698c; }
+    .layer-row h3 { margin: 0 0 2px; font-size: 14px; }
+    .layer-row p { margin: 0; color: var(--muted); font-size: 12px; }
+    .layer-pill { padding: 5px 8px; border-radius: 999px; background: var(--gold-soft); color: #74551e; font-size: 10px; font-weight: 800; white-space: nowrap; }
+    .layer-map-foot { margin: 16px 0 0; padding-top: 15px; border-top: 1px solid rgba(203,219,205,.9); color: #415b4d; font-size: 13px; }
 
-    .section { padding: 74px 0; }
-    .section-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 31px; }
-    .section-heading h2 { margin-bottom: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(32px, 4vw, 47px); font-weight: 500; letter-spacing: -.035em; }
-    .section-heading p { max-width: 520px; margin-bottom: 0; color: var(--muted); }
+    /* Sections */
+    .section { padding: 78px 0; }
+    .section-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; margin-bottom: 31px; }
+    .section-heading h2 { margin: 0; max-width: 610px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(34px, 4vw, 49px); font-weight: 500; line-height: 1.07; letter-spacing: -.035em; }
+    .section-heading p { max-width: 475px; margin: 0; color: var(--muted); }
+    .process-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+    .process-card { position: relative; padding: 18px 15px; min-height: 160px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: rgba(255,255,255,.72); }
+    .process-card::after { content: "→"; position: absolute; right: -15px; top: calc(50% - 12px); color: var(--gold); font-size: 24px; z-index: 2; }
+    .process-card:last-child::after { display: none; }
+    .process-no { color: var(--gold); font-family: Georgia, "Times New Roman", serif; font-size: 31px; line-height: 1; }
+    .process-card h3 { margin: 19px 0 6px; font-size: 15px; line-height: 1.25; }
+    .process-card p { margin: 0; color: var(--muted); font-size: 12px; }
 
-    .method-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .method-card { padding: 24px; min-height: 215px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: rgba(255,255,255,.72); }
-    .method-number { color: var(--gold); font-family: Georgia, "Times New Roman", serif; font-size: 40px; line-height: 1; }
-    .method-card h3 { margin: 25px 0 8px; font-size: 17px; }
-    .method-card p { margin-bottom: 0; color: var(--muted); font-size: 14px; }
-
-    .calculator-section { padding: 30px 0 86px; }
-    .calculator-shell { border: 1px solid #d9e1da; border-radius: var(--radius-xl); background: rgba(255,255,255,.84); box-shadow: var(--shadow); overflow: hidden; }
-    .calculator-head { padding: 33px 36px 27px; border-bottom: 1px solid var(--line); background: linear-gradient(105deg, #f6f1e7 0%, #eef5ef 100%); }
-    .calculator-head h2 { margin: 0 0 8px; font-family: Georgia, "Times New Roman", serif; font-size: 33px; font-weight: 500; letter-spacing: -.03em; }
-    .calculator-head p { max-width: 690px; margin: 0; color: var(--muted); }
-    .privacy-note { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; color: #476252; font-size: 12px; font-weight: 640; }
-    .privacy-note::before { content: ""; width: 8px; height: 8px; border: 2px solid var(--forest); border-radius: 50%; }
-
-    .form-area { padding: 31px 36px 37px; }
+    /* Calculator */
+    .calculator-section { padding: 26px 0 88px; }
+    .calculator-shell { overflow: hidden; border: 1px solid #d9e4db; border-radius: var(--radius-xl); background: rgba(255,255,255,.84); box-shadow: var(--shadow); }
+    .calculator-head { padding: 35px 38px 28px; border-bottom: 1px solid var(--line); background: linear-gradient(105deg, #faf4e8 0%, #edf5ef 100%); }
+    .calculator-head h2 { margin: 0 0 8px; font-family: Georgia, "Times New Roman", serif; font-size: 35px; font-weight: 500; letter-spacing: -.03em; }
+    .calculator-head p { max-width: 760px; margin: 0; color: var(--muted); }
+    .privacy-note { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; color: #496557; font-size: 12px; font-weight: 650; }
+    .privacy-note::before { content: ""; width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--forest); }
+    .form-area { padding: 30px 38px 38px; }
+    .form-subtitle { margin: 0 0 18px; color: var(--forest); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
     .form-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
     .field { grid-column: span 4; }
     .field-wide { grid-column: span 6; }
     .field-full { grid-column: 1 / -1; }
-    label { display: block; margin-bottom: 8px; color: #344239; font-size: 13px; font-weight: 760; }
+    label { display: block; margin-bottom: 8px; color: #36483d; font-size: 13px; font-weight: 760; }
+    input, select { width: 100%; padding: 13px 14px; border: 1px solid #cbd9ce; border-radius: 12px; outline: none; color: var(--ink); background: #fff; transition: border-color .18s ease, box-shadow .18s ease; }
+    input:focus, select:focus { border-color: var(--forest); box-shadow: 0 0 0 4px rgba(27,90,74,.1); }
+    input::placeholder { color: #a3ada6; }
     .hint { display: block; margin-top: 5px; color: var(--muted); font-size: 11px; }
-    input {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #cbd7ce;
-      outline: none;
-      border-radius: 12px;
-      color: var(--ink);
-      background: #fff;
-      transition: border-color .2s ease, box-shadow .2s ease;
-    }
-    input:focus { border-color: var(--forest); box-shadow: 0 0 0 4px rgba(31,75,58,.10); }
-    input::placeholder { color: #a3ada7; }
-    select {
-      width: 100%;
-      padding: 13px 40px 13px 14px;
-      border: 1px solid #cbd7ce;
-      outline: none;
-      border-radius: 12px;
-      color: var(--ink);
-      background: #fff;
-      cursor: pointer;
-      transition: border-color .2s ease, box-shadow .2s ease;
-    }
-    select:focus { border-color: var(--forest); box-shadow: 0 0 0 4px rgba(31,75,58,.10); }
-    .person-group { grid-column: span 6; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fbfcfa; }
-    .person-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 15px; }
-    .person-heading h3 { margin: 0; font-size: 16px; }
-    .person-chip { padding: 5px 8px; border-radius: 999px; color: var(--forest); background: #e8f0e9; font-size: 11px; font-weight: 750; }
-    .person-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .parent-mode { margin-top: 4px; padding-top: 14px; border-top: 1px solid #e2e9e3; }
-    .parent-mode label { margin-bottom: 7px; }
-    .optional-branch { grid-column: 1 / -1; margin-top: 3px; }
-    details { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-md); background: #fbfcfa; }
-    details summary { padding: 16px 18px; color: var(--forest); font-size: 14px; font-weight: 760; cursor: pointer; }
-    .grandparents { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 0 18px 18px; }
-    .grandparent-card { padding: 14px; border: 1px solid #dfe7e0; border-radius: 12px; background: #fff; }
-    .grandparent-card h4 { margin: 0 0 10px; color: #425148; font-size: 12px; }
-    .inline-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .actions { display: flex; align-items: center; gap: 13px; margin-top: 24px; flex-wrap: wrap; }
-    .form-message { min-height: 20px; color: #9d432f; font-size: 13px; }
+    .form-divider { height: 1px; grid-column: 1 / -1; background: var(--line); margin: 4px 0 2px; }
+    .family-block { grid-column: 1 / -1; padding: 21px; border: 1px solid #dae5dc; border-radius: var(--radius-lg); background: #f8fbf8; }
+    .family-block h3 { margin: 0 0 5px; font-family: Georgia, "Times New Roman", serif; font-size: 24px; font-weight: 500; letter-spacing: -.02em; }
+    .family-block > p { margin: 0 0 18px; color: var(--muted); font-size: 13px; }
+    .person-fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .grandparents { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .grandparent-item { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .form-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 23px; }
+    .form-message { margin: 0; color: var(--clay); font-size: 13px; font-weight: 650; }
 
-    .report { display: none; padding: 26px 36px 42px; border-top: 1px solid var(--line); background: #fcfdfb; }
+    /* Report */
+    .report { display: none; padding: 30px 38px 43px; border-top: 1px solid var(--line); background: #fcfdfb; }
     .report.is-visible { display: block; }
-    .report-toolbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 24px; }
-    .report-kicker { color: var(--forest); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-    .report-toolbar h2 { margin: 5px 0 0; font-family: Georgia, "Times New Roman", serif; font-size: 34px; font-weight: 500; letter-spacing: -.03em; }
+    .report-toolbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
+    .report-kicker, .small-title { color: var(--forest); font-size: 11px; font-weight: 840; letter-spacing: .085em; text-transform: uppercase; }
+    .report-toolbar h2 { margin: 5px 0 0; font-family: Georgia, "Times New Roman", serif; font-size: 35px; font-weight: 500; letter-spacing: -.03em; }
     .report-meta { margin-top: 6px; color: var(--muted); font-size: 13px; }
-    .report-note { margin: 16px 0 26px; padding: 13px 15px; border-left: 3px solid var(--gold); color: #526057; background: #f7f3e8; font-size: 13px; }
+    .report-note { margin: 16px 0 28px; padding: 14px 16px; border-left: 3px solid var(--gold); background: #faf5e9; color: #536158; font-size: 13px; }
+    .profile-hero { display: grid; grid-template-columns: 150px minmax(0,1fr); align-items: stretch; gap: 25px; padding: 23px; border: 1px solid #d5e3d7; border-radius: var(--radius-xl); background: linear-gradient(130deg, #edf5ee 0%, #f9f6ee 100%); }
+    .core-badge { display: grid; place-items: center; align-content: center; min-height: 146px; border-radius: var(--radius-lg); background: var(--forest); color: #fff; }
+    .core-value { font-family: Georgia, "Times New Roman", serif; font-size: 68px; line-height: .95; }
+    .core-label { margin-top: 8px; color: rgba(255,255,255,.78); font-size: 12px; font-weight: 700; }
+    .family-tag { display: inline-block; padding: 6px 9px; border-radius: 999px; color: var(--forest); background: #fff; font-size: 11px; font-weight: 800; }
+    .profile-hero h3 { margin: 14px 0 7px; font-family: Georgia, "Times New Roman", serif; font-size: 31px; font-weight: 500; letter-spacing: -.03em; }
+    .profile-hero p { margin: 0; color: #536158; }
+    .report-section { margin-top: 38px; }
+    .report-section > h3 { margin-bottom: 7px; font-family: Georgia, "Times New Roman", serif; font-size: 30px; font-weight: 500; letter-spacing: -.028em; }
+    .report-section > p { max-width: 860px; color: var(--muted); }
+    .report-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+    .report-card, .relation-card, .east-card, .lo-card { padding: 21px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; }
+    .report-card h4, .relation-card h4, .east-card h4, .lo-card h4 { margin: 8px 0 8px; font-size: 17px; }
+    .report-card p, .relation-card p, .east-card p, .lo-card p { margin: 0; color: var(--muted); font-size: 14px; }
+    .report-card strong, .relation-card strong, .east-card strong, .lo-card strong { color: var(--ink); }
+    .presence-grid, .relation-grid, .east-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 16px; }
+    .presence-card { padding: 21px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; }
+    .presence-card.support { border-color: #bcd9c7; background: #f5fbf6; }
+    .presence-card.deficit { border-color: #ead6a3; background: #fffaf0; }
+    .presence-card.pressure { border-color: #e8c5ba; background: #fff7f4; }
+    .presence-badge { display: inline-block; margin-bottom: 11px; padding: 5px 8px; border-radius: 999px; background: rgba(255,255,255,.8); color: var(--forest); font-size: 10px; font-weight: 820; letter-spacing: .07em; text-transform: uppercase; }
+    .presence-card h4 { margin-bottom: 8px; font-size: 18px; }
+    .presence-card p { color: var(--muted); font-size: 14px; }
+    .presence-card p:last-child { margin-bottom: 0; }
+    .relation-card .relation-label { color: var(--forest); font-size: 11px; font-weight: 820; letter-spacing: .075em; text-transform: uppercase; }
+    .relation-card .relation-title { margin: 7px 0 8px; font-family: Georgia, "Times New Roman", serif; font-size: 23px; font-weight: 500; letter-spacing: -.02em; }
+    .relation-code { display: inline-block; margin-top: 14px; padding: 5px 8px; border-radius: 999px; background: #eef5ef; color: #426152; font-size: 11px; font-weight: 720; }
+    .east-card .east-code { display: inline-block; padding: 5px 8px; border-radius: 999px; background: var(--lavender); color: #63516f; font-size: 11px; font-weight: 780; }
+    .east-card .east-title { margin: 11px 0 7px; font-family: Georgia, "Times New Roman", serif; font-size: 25px; font-weight: 500; letter-spacing: -.02em; }
+    .east-note { margin-top: 10px !important; color: #6b6d65 !important; font-size: 12px !important; }
+    .synthesis { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(250px,.9fr); gap: 16px; margin-top: 16px; }
+    .synthesis-main { padding: 25px; border-radius: var(--radius-lg); color: #f8fbf7; background: var(--forest); }
+    .synthesis-main .small-title { color: #dfece1; }
+    .synthesis-main h4 { margin: 11px 0 10px; font-family: Georgia, "Times New Roman", serif; font-size: 31px; font-weight: 500; letter-spacing: -.03em; }
+    .synthesis-main p { margin: 0; color: rgba(255,255,255,.86); }
+    .synthesis-side { display: grid; gap: 14px; }
+    .mini-card { padding: 19px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; }
+    .mini-card h4 { margin: 0 0 6px; font-size: 15px; }
+    .mini-card p { margin: 0; color: var(--muted); font-size: 13px; }
+    .lo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+    .lo-card .lo-type { color: #7f6087; font-size: 11px; font-weight: 840; letter-spacing: .08em; text-transform: uppercase; }
+    .lo-card .lo-years { margin-top: 10px; color: var(--ink); font-family: Georgia, "Times New Roman", serif; font-size: 22px; }
+    .lo-card .lo-sub { margin-top: 6px; color: var(--muted); font-size: 12px; }
+    .empty-state { padding: 20px; border: 1px dashed #cad8cc; border-radius: var(--radius-lg); color: var(--muted); background: #fbfdfb; font-size: 14px; }
+    .practice-card { display: grid; grid-template-columns: 1.1fr .9fr; overflow: hidden; border: 1px solid #d9e4db; border-radius: var(--radius-lg); background: #fff; }
+    .practice-copy { padding: 24px; background: #eef5ef; }
+    .practice-copy h4 { margin: 9px 0 0; font-family: Georgia, "Times New Roman", serif; font-size: 26px; font-weight: 500; letter-spacing: -.025em; }
+    .practice-side { padding: 24px; }
+    .practice-side p { margin: 0; color: var(--muted); }
+    .model-box { margin-top: 38px; padding: 22px; border: 1px solid #dde4de; border-radius: var(--radius-lg); background: #fafaf7; }
+    .model-box h3 { margin: 0 0 7px; font-family: Georgia, "Times New Roman", serif; font-size: 25px; font-weight: 500; }
+    .model-box > p { color: var(--muted); }
+    .model-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .model-item { padding: 13px; border-radius: 12px; background: #fff; color: var(--muted); font-size: 13px; }
+    .model-item strong { color: var(--ink); }
 
-    .profile-hero { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 23px; padding: 28px; border-radius: var(--radius-lg); color: #fff; background: linear-gradient(130deg, #1b4636, #285a43); }
-    .core-badge { display: grid; place-items: center; align-content: center; min-height: 170px; border: 1px solid rgba(255,255,255,.33); border-radius: 22px; background: rgba(255,255,255,.08); }
-    .core-value { font-family: Georgia, "Times New Roman", serif; font-size: 76px; line-height: .9; }
-    .core-label { margin-top: 10px; color: rgba(255,255,255,.72); font-size: 12px; text-transform: uppercase; letter-spacing: .1em; }
-    .profile-hero h3 { margin: 0 0 8px; font-family: Georgia, "Times New Roman", serif; font-size: 32px; font-weight: 500; letter-spacing: -.03em; }
-    .family-tag { display: inline-flex; align-items: center; margin: 0 0 16px; padding: 5px 9px; border: 1px solid rgba(255,255,255,.28); border-radius: 999px; color: rgba(255,255,255,.84); font-size: 12px; }
-    .profile-hero p { max-width: 690px; margin: 0; color: rgba(255,255,255,.85); }
+    .footer { padding: 30px 0 38px; color: var(--muted); font-size: 13px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; padding-top: 23px; border-top: 1px solid var(--line); }
 
-    .report-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
-    .report-card { padding: 22px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; }
-    .report-card h3 { margin-bottom: 10px; color: #1d3026; font-size: 15px; }
-    .report-card p { margin-bottom: 0; color: var(--muted); font-size: 14px; }
-    .report-card strong { color: var(--ink); }
-    .report-card .small-title { margin-bottom: 7px; color: var(--forest); font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-
-    .report-section { margin-top: 34px; }
-    .report-section > h3 { margin-bottom: 7px; font-family: Georgia, "Times New Roman", serif; font-size: 29px; font-weight: 500; letter-spacing: -.027em; }
-    .report-section > p { max-width: 770px; color: var(--muted); }
-
-    .relationship-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .relation-card { padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; }
-    .parent-presence-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-    .presence-card { padding: 22px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; }
-    .presence-card h4 { margin: 10px 0 8px; font-family: Georgia, "Times New Roman", serif; font-size: 24px; font-weight: 500; letter-spacing: -.02em; }
-    .presence-card p { margin: 0; color: var(--muted); font-size: 14px; }
-    .presence-card p + p { margin-top: 12px; }
-    .presence-card .presence-line { color: #425348; }
-    .presence-card .presence-line strong { color: var(--ink); }
-    .presence-badge { display: inline-flex; align-items: center; padding: 5px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
-    .presence-card.support .presence-badge { color: #285940; background: #e6f1e8; }
-    .presence-card.deficit .presence-badge { color: #76592f; background: #f6efdc; }
-    .presence-card.pressure .presence-badge { color: #873f2e; background: #f7e6e0; }
-    .presence-empty { grid-column: 1 / -1; padding: 22px; border: 1px dashed #bdcbbf; border-radius: var(--radius-lg); color: var(--muted); text-align: center; }
-    .relation-title { color: var(--forest); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-    .relation-name { margin: 9px 0; font-family: Georgia, "Times New Roman", serif; font-size: 22px; letter-spacing: -.02em; }
-    .relation-card p { margin: 0; color: var(--muted); font-size: 14px; }
-    .relation-code { display: inline-flex; margin-top: 13px; padding: 6px 9px; border-radius: 999px; color: #355644; background: #edf5ee; font-size: 12px; font-weight: 750; }
-    .empty-relation { grid-column: 1 / -1; padding: 22px; border: 1px dashed #bdcbbf; border-radius: var(--radius-lg); color: var(--muted); text-align: center; }
-
-    .theme-wrap { display: grid; grid-template-columns: 1.12fr .88fr; gap: 16px; }
-    .theme-main { padding: 28px; border-radius: var(--radius-lg); background: #f0f5ef; border: 1px solid #d5e2d7; }
-    .theme-main .small-title { margin-bottom: 9px; color: var(--forest); font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
-    .theme-main h4 { margin: 0 0 12px; font-family: Georgia, "Times New Roman", serif; font-size: 27px; font-weight: 500; letter-spacing: -.028em; }
-    .theme-main p { margin-bottom: 0; color: #496057; }
-    .theme-side { display: grid; gap: 16px; }
-    .mini-card { padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; }
-    .mini-card h4 { margin: 0 0 7px; font-size: 15px; }
-    .mini-card p { margin: 0; color: var(--muted); font-size: 14px; }
-
-    .practice-card { display: grid; grid-template-columns: 1.15fr .85fr; gap: 0; overflow: hidden; border: 1px solid #d9dfd8; border-radius: var(--radius-lg); background: #fff; }
-    .practice-copy { padding: 28px; }
-    .practice-copy .small-title { color: var(--clay); font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
-    .practice-copy h4 { max-width: 660px; margin: 9px 0 0; font-family: Georgia, "Times New Roman", serif; font-size: 27px; font-weight: 500; letter-spacing: -.028em; }
-    .practice-side { display: grid; place-items: center; padding: 28px; color: #fff; background: linear-gradient(135deg, #b26042, #8f462f); }
-    .practice-side p { max-width: 230px; margin: 0; color: rgba(255,255,255,.85); text-align: center; font-size: 14px; }
-    .practice-side strong { display: block; margin-bottom: 8px; color: #fff; font-size: 15px; }
-
-    .model-box { margin-top: 34px; padding: 20px; border: 1px solid #e4d8bd; border-radius: var(--radius-lg); background: #fdf9ef; }
-    .model-box h3 { margin-bottom: 8px; font-size: 16px; }
-    .model-box p { margin-bottom: 0; color: #665d4d; font-size: 13px; }
-    .model-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 15px; }
-    .model-item { padding-left: 12px; border-left: 2px solid var(--gold); color: #665d4d; font-size: 12px; }
-
-    .footer { padding: 34px 0 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
-    .footer-inner { display: flex; align-items: flex-start; justify-content: space-between; gap: 30px; }
-    .footer strong { display: block; margin-bottom: 5px; color: var(--ink); }
-
-    @media (max-width: 900px) {
-      .hero-grid, .theme-wrap, .practice-card { grid-template-columns: 1fr; }
-      .method-grid, .report-grid, .relationship-grid, .parent-presence-grid { grid-template-columns: 1fr; }
-      .person-group { grid-column: 1 / -1; }
-      .field, .field-wide { grid-column: span 6; }
-      .profile-hero { grid-template-columns: 128px 1fr; }
-      .core-badge { min-height: 128px; }
-      .model-list { grid-template-columns: 1fr; }
-      .hero-card { max-width: 560px; width: 100%; }
+    @media (max-width: 980px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .layer-map { max-width: 660px; }
+      .process-grid { grid-template-columns: repeat(3, 1fr); }
+      .process-card::after { display: none; }
+      .field { grid-column: span 6; }
+      .person-fields { grid-template-columns: 1fr 1fr; }
+      .report-grid, .lo-grid { grid-template-columns: 1fr 1fr; }
     }
-    @media (max-width: 620px) {
-      .wrap { width: min(100% - 28px, 1160px); }
-      .header-actions .header-link { display: none; }
-      .header-inner { min-height: 65px; }
-      .header-actions .button { padding: 10px 13px; font-size: 13px; }
-      .hero { padding: 56px 0 42px; }
-      h1 { font-size: 45px; }
+    @media (max-width: 680px) {
+      .wrap { width: min(100% - 28px, 1180px); }
+      .header-inner { min-height: 64px; }
+      .header-link { display: none; }
+      .brand { font-size: 18px; }
+      .hero { padding: 51px 0 44px; }
       .hero-copy { font-size: 16px; }
-      .hero-card { min-height: 368px; padding: 22px; }
-      .card-title { margin-top: 37px; }
-      .card-caption { right: 22px; bottom: 20px; }
-      .section, .calculator-section { padding-top: 52px; padding-bottom: 52px; }
+      .layer-map { padding: 17px; }
+      .layer-row { grid-template-columns: 34px minmax(0,1fr); }
+      .layer-pill { grid-column: 2; justify-self: start; }
+      .section { padding: 56px 0; }
       .section-heading { display: block; }
-      .section-heading p { margin-top: 12px; }
-      .method-grid { gap: 12px; }
+      .section-heading p { margin-top: 14px; }
+      .process-grid, .report-grid, .presence-grid, .relation-grid, .east-grid, .lo-grid, .model-list { grid-template-columns: 1fr; }
       .calculator-head, .form-area, .report { padding-left: 18px; padding-right: 18px; }
-      .calculator-head { padding-top: 25px; padding-bottom: 22px; }
-      .form-area { padding-top: 22px; padding-bottom: 25px; }
+      .calculator-head { padding-top: 24px; }
       .field, .field-wide { grid-column: 1 / -1; }
-      .person-fields, .grandparents, .inline-fields { grid-template-columns: 1fr; }
-      .grandparents { gap: 10px; }
+      .person-fields, .grandparents, .grandparent-item { grid-template-columns: 1fr; }
+      .profile-hero, .synthesis, .practice-card { grid-template-columns: 1fr; }
+      .core-badge { min-height: 112px; }
       .report-toolbar { display: block; }
-      .report-toolbar .button { margin-top: 16px; }
-      .profile-hero { grid-template-columns: 1fr; padding: 21px; }
-      .core-badge { min-height: 110px; }
-      .core-value { font-size: 61px; }
-      .profile-hero h3 { font-size: 28px; }
-      .report-section > h3 { font-size: 25px; }
-      .practice-copy { padding: 22px; }
-      .practice-copy h4 { font-size: 23px; }
+      .report-toolbar .button { margin-top: 15px; }
       .footer-inner { display: block; }
-      .footer-inner > div + div { margin-top: 16px; }
+      .footer-inner > div + div { margin-top: 10px; }
     }
-
     @media print {
       body { background: #fff; }
       .site-header, .hero, .section, .calculator-head, .form-area, .footer, .report-toolbar .button { display: none !important; }
       .calculator-section { padding: 0; }
       .calculator-shell { border: 0; box-shadow: none; }
       .report { display: block !important; padding: 0; border: 0; }
-      .report-note { border-left-color: #a57b32; }
-      .profile-hero, .theme-main, .practice-side { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .report-card, .relation-card, .presence-card, .theme-main, .mini-card, .practice-card { break-inside: avoid; }
+      .profile-hero, .synthesis-main, .practice-copy { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .report-card, .relation-card, .presence-card, .east-card, .lo-card, .synthesis-main, .mini-card, .practice-card { break-inside: avoid; }
     }
   </style>
 </head>
@@ -392,11 +255,11 @@
   <header class="site-header">
     <div class="wrap header-inner">
       <a class="brand" href="#top" aria-label="Родовая навигация">
-        <span class="brand-mark" aria-hidden="true"></span>
+        <img class="brand-mark" src="favicon.svg" alt="" />
         <span>Родовая навигация</span>
       </a>
       <div class="header-actions">
-        <a class="header-link" href="#method">Как это работает</a>
+        <a class="header-link" href="#layers">Как устроена</a>
         <a class="button button-primary" href="#calculator">Собрать карту</a>
       </div>
     </div>
@@ -406,55 +269,48 @@
     <section class="hero">
       <div class="wrap hero-grid">
         <div>
-          <span class="eyebrow">Самостоятельная расчётная система</span>
-          <h1>Увидеть, какие темы <em>повторяются</em> в семье — и найти своё направление.</h1>
-          <p class="hero-copy">Родовая навигация соединяет даты рождения семьи в одну карту: личное ядро, семейства, связи между линиями и повторяющиеся мотивы. Без ИИ, без личного кабинета, без отправки данных на сервер.</p>
-          <div class="hero-cta">
-            <a class="button button-primary" href="#calculator">Собрать свою карту</a>
-            <span class="microcopy">Понадобятся даты рождения — ваши и, по возможности, родителей.</span>
+          <span class="eyebrow">Авторская многослойная система</span>
+          <h1>Карта семьи — не один расчёт, а место, где <em>несколько систем</em> сходятся в одну логику.</h1>
+          <p class="hero-copy">«Родовая навигация» соединяет числовой, архетипический, родовой, восточный и тибетский слои. Система ищет не отдельные ярлыки, а повторения и пересечения: где одна тема подтверждается несколькими способами чтения.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#calculator">Собрать семейную карту</a>
+            <span class="microcopy">Расчёт выполняется в браузере. Данные никуда не отправляются.</span>
           </div>
           <div class="hero-points" aria-label="Особенности системы">
-            <span class="hero-point">Прозрачные правила расчёта</span>
-            <span class="hero-point">Семья до трёх поколений</span>
-            <span class="hero-point">Фокус на ресурсе и задаче</span>
+            <span class="hero-point">Числа и архетипы</span>
+            <span class="hero-point">Родители и три поколения</span>
+            <span class="hero-point">Ба-цзы: животные и элементы</span>
+            <span class="hero-point">Годы Ло Кхак</span>
           </div>
         </div>
 
-        <aside class="hero-card" aria-label="Схема карты">
-          <div class="card-topline"><span>Карта системы</span><span>01—03</span></div>
-          <div class="card-title">Не прогноз, а навигация<br>по повторяющимся темам.</div>
-          <div class="card-flow">
-            <div class="flow-row"><span class="flow-node">A</span><span class="flow-line"></span><span class="flow-text">структура и сила</span></div>
-            <div class="flow-row"><span class="flow-node">B</span><span class="flow-line"></span><span class="flow-text">связь и забота</span></div>
-            <div class="flow-row"><span class="flow-node">D</span><span class="flow-line"></span><span class="flow-text">смысл и глубина</span></div>
+        <aside class="layer-map" aria-label="Пять слоёв Родовой навигации">
+          <div class="layer-map-head"><span>Карта системы</span><strong>5 слоёв → 1 синтез</strong></div>
+          <div class="layer-stack">
+            <div class="layer-row"><span class="layer-index">1</span><div><h3>Числовая карта</h3><p>Ядро, семейство, динамика числа дня.</p></div><span class="layer-pill">скелет</span></div>
+            <div class="layer-row"><span class="layer-index">2</span><div><h3>Архетипический слой</h3><p>Дар, цена и полярность числа.</p></div><span class="layer-pill">смысл</span></div>
+            <div class="layer-row"><span class="layer-index">3</span><div><h3>Родовая динамика</h3><p>Связи, роли и режимы присутствия родителей.</p></div><span class="layer-pill">связи</span></div>
+            <div class="layer-row"><span class="layer-index">4</span><div><h3>Ба-цзы: годовой столп</h3><p>Животные, элементы и их отношения в линии.</p></div><span class="layer-pill">динамика</span></div>
+            <div class="layer-row"><span class="layer-index">5</span><div><h3>Тибетский слой</h3><p>Ло Кхак: годы повышенного внимания в цикле.</p></div><span class="layer-pill">время</span></div>
           </div>
-          <p class="card-caption">Система не говорит, что с человеком произошло. Она показывает, какие темы в числовой карте повторяются и где искать собственный способ их проживать.</p>
+          <p class="layer-map-foot">Главный вывод появляется не из одного совпадения, а там, где несколько слоёв показывают одну и ту же тему.</p>
         </aside>
       </div>
     </section>
 
-    <section class="section" id="method">
+    <section class="section" id="layers">
       <div class="wrap">
         <div class="section-heading">
-          <h2>Что именно считает система</h2>
-          <p>Не набор независимых трактовок, а последовательную карту: сначала личный код, затем связи между линиями, затем повторения и практический фокус.</p>
+          <h2>Сначала система считает каждый слой. Потом — сводит их вместе.</h2>
+          <p>Так человек видит, из чего получился вывод: что является расчётом, что — контекстом отношений, а что — итоговым синтезом.</p>
         </div>
-        <div class="method-grid">
-          <article class="method-card">
-            <div class="method-number">01</div>
-            <h3>Личное ядро</h3>
-            <p>Дата рождения сводится к числу 1–9, 11 или 22. Каждое число относится к одному из четырёх семейств и задаёт базовую тему человека.</p>
-          </article>
-          <article class="method-card">
-            <div class="method-number">02</div>
-            <h3>Связи между линиями</h3>
-            <p>Система сравнивает семейства человека, матери, отца и — при наличии дат — бабушек и дедушек. Так видны резонансы, поддержка, напряжение и разрывы.</p>
-          </article>
-          <article class="method-card">
-            <div class="method-number">03</div>
-            <h3>Главная тема карты</h3>
-            <p>Повторяющиеся семейства получают больший вес. В отчёт попадает не всё сразу, а то, что действительно повторяется и требует внимания.</p>
-          </article>
+        <div class="process-grid">
+          <article class="process-card"><div class="process-no">01</div><h3>Ядро и семейство</h3><p>Пифагорейская редукция даты: 1–9, 11, 22 и авторская система четырёх семейств.</p></article>
+          <article class="process-card"><div class="process-no">02</div><h3>Архетип</h3><p>К числу добавляются образ, ресурс, риск и вопрос развития.</p></article>
+          <article class="process-card"><div class="process-no">03</div><h3>Семейная карта</h3><p>Сопоставляются человек, родители и — при наличии данных — бабушки и дедушки.</p></article>
+          <article class="process-card"><div class="process-no">04</div><h3>Режим присутствия</h3><p>Пользователь задаёт, был ли родитель опорой, дефицитом контакта или источником давления.</p></article>
+          <article class="process-card"><div class="process-no">05</div><h3>Восточный слой</h3><p>Годовой столп Ба-цзы: животное, элемент, питание, контроль, союзы и оппозиции.</p></article>
+          <article class="process-card"><div class="process-no">06</div><h3>Синтез и время</h3><p>Ло Кхак отмечает циклы внимания, а синтез показывает подтверждённые темы.</p></article>
         </div>
       </div>
     </section>
@@ -463,122 +319,50 @@
       <div class="wrap">
         <div class="calculator-shell">
           <div class="calculator-head">
-            <h2>Соберите карту семьи</h2>
-            <p>Заполните хотя бы свою дату. Даты родителей добавят карту связей; данные бабушек и дедушек помогут увидеть повторяющиеся темы на глубине трёх поколений.</p>
-            <div class="privacy-note">Расчёт происходит прямо в браузере. Данные никуда не отправляются.</div>
+            <h2>Соберите семейную карту</h2>
+            <p>Для базового разбора достаточно вашей даты рождения. Для родовой динамики добавьте родителей. Даты бабушек и дедушек включают повторения по трём поколениям.</p>
+            <div class="privacy-note">Расчёт происходит на вашем устройстве</div>
           </div>
 
-          <div class="form-area">
-            <form id="family-form" novalidate>
-              <div class="form-grid">
-                <div class="field field-wide">
-                  <label for="user-name">Ваше имя</label>
-                  <input id="user-name" type="text" maxlength="40" placeholder="Например, Татьяна" autocomplete="name" />
+          <form class="form-area" id="family-form" novalidate>
+            <p class="form-subtitle">Вы</p>
+            <div class="form-grid">
+              <div class="field-wide"><label for="user-name">Ваше имя</label><input id="user-name" type="text" placeholder="Например, Татьяна" autocomplete="name" /></div>
+              <div class="field-wide"><label for="user-date">Дата рождения <span aria-hidden="true">*</span></label><input id="user-date" type="date" required /></div>
+
+              <div class="form-divider"></div>
+              <section class="family-block" aria-label="Данные о матери">
+                <h3>Мать</h3><p>Режим присутствия — это не расчёт по дате, а ваш опыт отношений с матерью.</p>
+                <div class="person-fields">
+                  <div><label for="mother-name">Имя</label><input id="mother-name" type="text" placeholder="Имя матери" /></div>
+                  <div><label for="mother-date">Дата рождения</label><input id="mother-date" type="date" /></div>
+                  <div><label for="mother-presence">Режим присутствия</label><select id="mother-presence"><option value="">Не указывать</option><option value="support">Опора</option><option value="deficit">Дефицит контакта</option><option value="pressure">Разрушительное давление</option></select></div>
                 </div>
-                <div class="field field-wide">
-                  <label for="user-date">Ваша дата рождения <span aria-hidden="true">*</span></label>
-                  <input id="user-date" type="date" required />
-                  <span class="hint">Это единственное обязательное поле.</span>
+              </section>
+
+              <section class="family-block" aria-label="Данные об отце">
+                <h3>Отец</h3><p>Этот слой уточняет, как числовая и восточная линии переживались в конкретных отношениях.</p>
+                <div class="person-fields">
+                  <div><label for="father-name">Имя</label><input id="father-name" type="text" placeholder="Имя отца" /></div>
+                  <div><label for="father-date">Дата рождения</label><input id="father-date" type="date" /></div>
+                  <div><label for="father-presence">Режим присутствия</label><select id="father-presence"><option value="">Не указывать</option><option value="support">Опора</option><option value="deficit">Дефицит контакта</option><option value="pressure">Разрушительное давление</option></select></div>
                 </div>
+              </section>
 
-                <section class="person-group" aria-labelledby="mother-title">
-                  <div class="person-heading">
-                    <h3 id="mother-title">Мать</h3>
-                    <span class="person-chip">необязательно</span>
-                  </div>
-                  <div class="person-fields">
-                    <div>
-                      <label for="mother-name">Имя</label>
-                      <input id="mother-name" type="text" maxlength="40" placeholder="Имя матери" />
-                    </div>
-                    <div>
-                      <label for="mother-date">Дата рождения</label>
-                      <input id="mother-date" type="date" />
-                    </div>
-                    <div class="field-full parent-mode">
-                      <label for="mother-presence">Режим родительского присутствия</label>
-                      <select id="mother-presence">
-                        <option value="">Не указывать сейчас</option>
-                        <option value="support">Опора — была включена, давала поддержку и границы</option>
-                        <option value="deficit">Дефицит контакта — была далека, безразлична, отсутствовала или оставляла справляться самой</option>
-                        <option value="pressure">Разрушительное давление — контролировала через страх, унижала, подавляла или была непредсказуема</option>
-                      </select>
-                      <span class="hint">Это не определяется по дате: выберите вариант по вашему реальному опыту.</span>
-                    </div>
-                  </div>
-                </section>
-
-                <section class="person-group" aria-labelledby="father-title">
-                  <div class="person-heading">
-                    <h3 id="father-title">Отец</h3>
-                    <span class="person-chip">необязательно</span>
-                  </div>
-                  <div class="person-fields">
-                    <div>
-                      <label for="father-name">Имя</label>
-                      <input id="father-name" type="text" maxlength="40" placeholder="Имя отца" />
-                    </div>
-                    <div>
-                      <label for="father-date">Дата рождения</label>
-                      <input id="father-date" type="date" />
-                    </div>
-                    <div class="field-full parent-mode">
-                      <label for="father-presence">Режим родительского присутствия</label>
-                      <select id="father-presence">
-                        <option value="">Не указывать сейчас</option>
-                        <option value="support">Опора — был включён, давал поддержку и границы</option>
-                        <option value="deficit">Дефицит контакта — был далёк, безразличен, отсутствовал или оставлял справляться самой</option>
-                        <option value="pressure">Разрушительное давление — контролировал через страх, унижал, подавлял или был непредсказуем</option>
-                      </select>
-                      <span class="hint">Это не определяется по дате: выберите вариант по вашему реальному опыту.</span>
-                    </div>
-                  </div>
-                </section>
-
-                <div class="optional-branch">
-                  <details>
-                    <summary>Добавить бабушек и дедушек для карты трёх поколений</summary>
-                    <div class="grandparents">
-                      <div class="grandparent-card">
-                        <h4>Бабушка по матери</h4>
-                        <div class="inline-fields">
-                          <input id="mgm-name" type="text" maxlength="40" placeholder="Имя" aria-label="Имя бабушки по матери" />
-                          <input id="mgm-date" type="date" aria-label="Дата рождения бабушки по матери" />
-                        </div>
-                      </div>
-                      <div class="grandparent-card">
-                        <h4>Дедушка по матери</h4>
-                        <div class="inline-fields">
-                          <input id="mgf-name" type="text" maxlength="40" placeholder="Имя" aria-label="Имя дедушки по матери" />
-                          <input id="mgf-date" type="date" aria-label="Дата рождения дедушки по матери" />
-                        </div>
-                      </div>
-                      <div class="grandparent-card">
-                        <h4>Бабушка по отцу</h4>
-                        <div class="inline-fields">
-                          <input id="pgm-name" type="text" maxlength="40" placeholder="Имя" aria-label="Имя бабушки по отцу" />
-                          <input id="pgm-date" type="date" aria-label="Дата рождения бабушки по отцу" />
-                        </div>
-                      </div>
-                      <div class="grandparent-card">
-                        <h4>Дедушка по отцу</h4>
-                        <div class="inline-fields">
-                          <input id="pgf-name" type="text" maxlength="40" placeholder="Имя" aria-label="Имя дедушки по отцу" />
-                          <input id="pgf-date" type="date" aria-label="Дата рождения дедушки по отцу" />
-                        </div>
-                      </div>
-                    </div>
-                  </details>
+              <section class="family-block">
+                <h3>Бабушки и дедушки <span style="font-family:inherit;font-size:13px;color:var(--muted);font-weight:600;">необязательно</span></h3>
+                <p>Нужны, чтобы увидеть повторение животных, элементов и числовых семейств в трёх поколениях.</p>
+                <div class="grandparents">
+                  <div class="grandparent-item"><input id="mgm-name" type="text" placeholder="Бабушка по матери" /><input id="mgm-date" type="date" aria-label="Дата рождения бабушки по матери" /></div>
+                  <div class="grandparent-item"><input id="mgf-name" type="text" placeholder="Дедушка по матери" /><input id="mgf-date" type="date" aria-label="Дата рождения дедушки по матери" /></div>
+                  <div class="grandparent-item"><input id="pgm-name" type="text" placeholder="Бабушка по отцу" /><input id="pgm-date" type="date" aria-label="Дата рождения бабушки по отцу" /></div>
+                  <div class="grandparent-item"><input id="pgf-name" type="text" placeholder="Дедушка по отцу" /><input id="pgf-date" type="date" aria-label="Дата рождения дедушки по отцу" /></div>
                 </div>
-              </div>
-
-              <div class="actions">
-                <button class="button button-primary" type="submit">Рассчитать карту</button>
-                <button class="button button-ghost" type="button" id="clear-form">Очистить</button>
-                <span class="form-message" id="form-message" role="alert"></span>
-              </div>
-            </form>
-          </div>
+                <span class="hint">В восточном слое в этой версии используется годовой столп Ба-цзы. Для дат 1–4 февраля в отчёте будет пометка о необходимости уточнить китайский Новый год.</span>
+              </section>
+            </div>
+            <div class="form-actions"><button class="button button-primary" type="submit">Построить карту</button><button class="button button-secondary" type="button" id="clear-form">Очистить</button><p class="form-message" id="form-message" role="alert"></p></div>
+          </form>
 
           <section class="report" id="report" aria-live="polite"></section>
         </div>
@@ -586,636 +370,245 @@
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="wrap footer-inner">
-      <div>
-        <strong>Родовая навигация</strong>
-        <span>Самостоятельный инструмент символической саморефлексии.</span>
-      </div>
-      <div>Система не ставит диагнозы, не определяет биографические факты и не заменяет психологическую, медицинскую или юридическую помощь.</div>
-    </div>
-  </footer>
+  <footer class="footer"><div class="wrap footer-inner"><div>Родовая навигация · авторская система многослойного чтения семейной карты</div><div>Не предсказывает судьбу. Помогает увидеть повторения и выбрать, что с ними делать.</div></div></footer>
 
   <script>
     /*
-      РОДОВАЯ НАВИГАЦИЯ — СТАТИЧЕСКИЙ MVP
-      Вся база находится ниже в NUMBER_DB и FAMILY_DB.
-      Чтобы расширять продукт, добавляйте новые слои в эти объекты и в функцию buildReport().
+      РОДОВАЯ НАВИГАЦИЯ — статическая версия без ИИ.
+      Все данные и правила находятся в этом файле. Слои:
+      1) числа и семейства; 2) архетипы; 3) связи и режим присутствия;
+      4) годовой столп Ба-цзы; 5) упрощённый слой Ло Кхак; 6) синтез совпадений.
     */
 
     const NUMBER_DB = {
-      1: {
-        archetype: 'Герой',
-        family: 'A',
-        title: 'Автономия и первый шаг',
-        strength: 'инициировать, брать направление на себя и действовать без долгой раскачки',
-        shadow: 'оставаться в одиночной мобилизации и считать помощь признаком слабости',
-        relation: 'важно сохранять самостоятельность, не превращая близость в угрозу свободе',
-        realization: 'реализация раскрывается через авторство, инициативу и личную ответственность',
-        anchor: 'Я могу идти своим путём и позволять другим идти рядом.'
-      },
-      2: {
-        archetype: 'Душа',
-        family: 'B',
-        title: 'Чуткость и партнёрство',
-        strength: 'слышать нюансы, соединять людей и замечать то, что не сказано прямо',
-        shadow: 'подстраиваться до потери собственной позиции и ждать, что потребности угадают',
-        relation: 'близость становится устойчивой, когда в ней есть два отдельных человека',
-        realization: 'реализация раскрывается через партнёрство, поддержку, медиацию и тонкую настройку процессов',
-        anchor: 'Моя чуткость — сила, а не обязанность растворяться.'
-      },
-      3: {
-        archetype: 'Творец',
-        family: 'C',
-        title: 'Выражение и живая форма',
-        strength: 'давать идеям голос, превращать смысл в слово, образ, контакт или движение',
-        shadow: 'рассеиваться между возможностями и прятаться в лёгкости от настоящей глубины',
-        relation: 'важно быть увиденным не только в яркости, но и в уязвимой части себя',
-        realization: 'реализация раскрывается через коммуникацию, творчество, обучение и создание понятных форм',
-        anchor: 'Моя лёгкость — дар, и я могу доводить важное до формы.'
-      },
-      4: {
-        archetype: 'Строитель',
-        family: 'A',
-        title: 'Опора и форма',
-        strength: 'создавать порядок, выдерживать долгие процессы и быть надёжной точкой',
-        shadow: 'делать структуру слишком жёсткой и жить только через долг или результат',
-        relation: 'надёжность не требует отказываться от тепла и гибкости',
-        realization: 'реализация раскрывается через системы, ремесло, управление качеством и долгосрочные проекты',
-        anchor: 'Я строю устойчивое — и могу менять форму, когда жизнь этого просит.'
-      },
-      5: {
-        archetype: 'Искатель',
-        family: 'C',
-        title: 'Свобода и исследование',
-        strength: 'видеть новые маршруты, быстро адаптироваться и оживлять застойные системы',
-        shadow: 'путать свободу с бегством от обязательств и уходить до того, как появится глубина',
-        relation: 'близость возможна без потери воздуха и собственной динамики',
-        realization: 'реализация раскрывается через перемены, исследование, продажи, коммуникацию и запуск нового',
-        anchor: 'Я могу исследовать мир и при этом иметь свой дом.'
-      },
-      6: {
-        archetype: 'Хранитель',
-        family: 'B',
-        title: 'Забота и принятие',
-        strength: 'создавать вокруг себя пространство тепла, верности и человеческой устойчивости',
-        shadow: 'нести чужую ответственность без запроса и превращать заботу в контроль',
-        relation: 'любовь не требует спасать, исправлять или удерживать другого',
-        realization: 'реализация раскрывается через помощь, образование, эстетику, сервис и создание среды',
-        anchor: 'Я могу заботиться, не забывая о себе.'
-      },
-      7: {
-        archetype: 'Мудрец',
-        family: 'D',
-        title: 'Глубина и исследование смысла',
-        strength: 'видеть суть, замечать закономерности и выдерживать одиночную интеллектуальную работу',
-        shadow: 'уходить в дистанцию, анализ или недоверие вместо живого контакта',
-        relation: 'глубина становится близостью, когда внутренний мир можно понемногу разделять',
-        realization: 'реализация раскрывается через исследование, экспертизу, аналитику и сложные смысловые задачи',
-        anchor: 'Я могу сохранять глубину и оставаться в контакте с людьми.'
-      },
-      8: {
-        archetype: 'Правитель',
-        family: 'A',
-        title: 'Влияние и управление',
-        strength: 'видеть стратегическую картину, брать масштабную ответственность и распределять ресурсы',
-        shadow: 'держать всё под контролем, потому что иначе кажется, что система развалится',
-        relation: 'сила не отменяет уважения к границам и субъектности другого',
-        realization: 'реализация раскрывается через управление, стратегию, финансы, власть и большие системы',
-        anchor: 'Я могу влиять, не превращая контроль в единственный способ быть в безопасности.'
-      },
-      9: {
-        archetype: 'Целитель',
-        family: 'D',
-        title: 'Служение и целостный взгляд',
-        strength: 'видеть большую картину, чувствовать человеческое и завершать важные циклы',
-        shadow: 'спасать всех, разочаровываться в реальности и забывать о собственном ресурсе',
-        relation: 'сострадание не требует жить чужой жизнью',
-        realization: 'реализация раскрывается через служение, творчество, просвещение и проекты со смыслом',
-        anchor: 'Я могу помогать миру, не отменяя себя.'
-      },
-      11: {
-        archetype: 'Провидец',
-        family: 'D',
-        title: 'Интуиция и проводимость смысла',
-        strength: 'считывать тонкие связи, видеть направление раньше, чем оно становится очевидным',
-        shadow: 'перегружаться впечатлениями, чувствовать себя отдельным от других и ждать от себя исключительности',
-        relation: 'интенсивность можно делить с другим, не требуя полного совпадения',
-        realization: 'реализация раскрывается через авторское видение, наставничество, творчество и работу с будущими смыслами',
-        anchor: 'Мне не нужно нести всё. Достаточно быть в контакте со своим направлением.'
-      },
-      22: {
-        archetype: 'Архитектор',
-        family: 'A',
-        title: 'Масштаб и воплощение',
-        strength: 'видеть систему целиком и строить то, что служит многим людям и переживает автора',
-        shadow: 'откладывать большое из страха масштаба, ответственности или несовершенного результата',
-        relation: 'большой замысел не требует становиться единственной опорой для всех',
-        realization: 'реализация раскрывается через архитектуру процессов, институции, стратегические проекты и системные решения',
-        anchor: 'Я могу строить большое шаг за шагом и не обязан(а) делать всё в одиночку.'
-      }
+      1:{archetype:'Герой',family:'A',title:'Автономия и первый шаг',strength:'инициировать, брать направление на себя и действовать без долгой раскачки',shadow:'оставаться в одиночной мобилизации и считать помощь признаком слабости',relation:'сохранять самостоятельность, не превращая близость в угрозу свободе',realization:'авторство, инициатива и личная ответственность',anchor:'Я могу идти своим путём и позволять другим идти рядом.'},
+      2:{archetype:'Душа',family:'B',title:'Чуткость и партнёрство',strength:'слышать нюансы, соединять людей и замечать то, что не сказано прямо',shadow:'подстраиваться до потери собственной позиции и ждать, что потребности угадают',relation:'оставаться собой внутри близости',realization:'партнёрство, поддержку, медиацию и тонкую настройку процессов',anchor:'Моя чуткость — сила, а не обязанность растворяться.'},
+      3:{archetype:'Творец',family:'C',title:'Выражение и живая форма',strength:'давать идеям голос, превращать смысл в слово, образ, контакт или движение',shadow:'рассеиваться между возможностями и прятаться в лёгкости от настоящей глубины',relation:'быть увиденным не только в яркости, но и в уязвимой части себя',realization:'коммуникацию, творчество, обучение и создание понятных форм',anchor:'Моя лёгкость — дар, и я могу доводить важное до формы.'},
+      4:{archetype:'Строитель',family:'A',title:'Опора и форма',strength:'создавать порядок, выдерживать долгие процессы и быть надёжной точкой',shadow:'делать структуру слишком жёсткой и жить только через долг или результат',relation:'соединять надёжность с теплом и гибкостью',realization:'системы, ремесло, управление качеством и долгосрочные проекты',anchor:'Я строю устойчивое и могу менять форму, когда жизнь этого просит.'},
+      5:{archetype:'Искатель',family:'C',title:'Свобода и исследование',strength:'видеть новые маршруты, быстро адаптироваться и оживлять застойные системы',shadow:'путать свободу с бегством от обязательств и уходить до того, как появится глубина',relation:'сохранять воздух и динамику без бегства из близости',realization:'перемены, исследование, продажи, коммуникацию и запуск нового',anchor:'Я могу исследовать мир и при этом иметь свой дом.'},
+      6:{archetype:'Хранитель',family:'B',title:'Забота и принятие',strength:'создавать вокруг себя пространство тепла, верности и человеческой устойчивости',shadow:'нести чужую ответственность без запроса и превращать заботу в контроль',relation:'любить без спасательства и удерживания другого',realization:'помощь, образование, эстетику, сервис и создание среды',anchor:'Я могу заботиться, не забывая о себе.'},
+      7:{archetype:'Мудрец',family:'D',title:'Глубина и исследование смысла',strength:'видеть суть, замечать закономерности и выдерживать одиночную интеллектуальную работу',shadow:'уходить в дистанцию, анализ или недоверие вместо живого контакта',relation:'делиться внутренним миром постепенно и по-настоящему',realization:'исследование, экспертизу, аналитику и сложные смысловые задачи',anchor:'Я могу сохранять глубину и оставаться в контакте с людьми.'},
+      8:{archetype:'Правитель',family:'A',title:'Влияние и управление',strength:'видеть стратегическую картину, брать масштабную ответственность и распределять ресурсы',shadow:'держать всё под контролем, потому что иначе кажется, что система развалится',relation:'влиять, уважая границы и субъектность другого',realization:'управление, стратегию, финансы, власть и большие системы',anchor:'Я могу влиять, не превращая контроль в единственный способ быть в безопасности.'},
+      9:{archetype:'Целитель',family:'D',title:'Служение и целостный взгляд',strength:'видеть большую картину, чувствовать человеческое и завершать важные циклы',shadow:'спасать всех, разочаровываться в реальности и забывать о собственном ресурсе',relation:'сострадать, не живя чужой жизнью',realization:'служение, творчество, просвещение и проекты со смыслом',anchor:'Я могу помогать миру, не отменяя себя.'},
+      11:{archetype:'Провидец',family:'D',title:'Интуиция и проводимость смысла',strength:'считывать тонкие связи и видеть направление раньше, чем оно становится очевидным',shadow:'перегружаться впечатлениями, чувствовать себя отдельным от других и ждать от себя исключительности',relation:'делить интенсивность с другим, не требуя полного совпадения',realization:'авторское видение, наставничество, творчество и работу с будущими смыслами',anchor:'Мне не нужно нести всё. Достаточно быть в контакте со своим направлением.'},
+      22:{archetype:'Архитектор',family:'A',title:'Масштаб и воплощение',strength:'видеть систему целиком и строить то, что служит многим людям и переживает автора',shadow:'откладывать большое из страха масштаба, ответственности или несовершенного результата',relation:'строить большое, не становясь единственной опорой для всех',realization:'архитектуру процессов, институции, стратегические проекты и системные решения',anchor:'Я могу строить большое шаг за шагом и не обязан(а) делать всё в одиночку.'}
     };
 
     const FAMILY_DB = {
-      A: {
-        name: 'Сила · структура · ответственность',
-        question: 'Кто держит?',
-        resource: 'способность создавать опору, порядок и ясные границы',
-        risk: 'контроль, перегруз и запрет на уязвимость',
-        task: 'сохранять силу без постоянной мобилизации',
-        practice: 'Выберите одну задачу, которую можно не тащить в одиночку: делегируйте часть, попросите помощь или обозначьте предел ответственности.'
-      },
-      B: {
-        name: 'Связь · близость · забота',
-        question: 'Кто кому нужен?',
-        resource: 'чуткость, верность и способность создавать безопасный контакт',
-        risk: 'слияние, спасательство и зависимость от одобрения',
-        task: 'оставаться собой внутри близости',
-        practice: 'В ближайшем разговоре прямо назовите одно своё желание или ограничение, не объясняя его слишком долго.'
-      },
-      C: {
-        name: 'Выражение · движение · свобода',
-        question: 'Как мне жить живо?',
-        resource: 'живость, гибкость, способность открывать новое и давать ему форму',
-        risk: 'хаос, рассеянность и бегство от завершения',
-        task: 'находить свободу внутри выбранной формы',
-        practice: 'Выберите одно незавершённое дело и доведите его до следующей ясной точки: отправить, закрыть, опубликовать или сознательно отменить.'
-      },
-      D: {
-        name: 'Глубина · смысл · дистанция',
-        question: 'В чём смысл и как не потерять себя?',
-        resource: 'внутренняя глубина, наблюдательность и способность связывать разрозненное в целое',
-        risk: 'изоляция, перегруз смыслом и уход в невидимость',
-        task: 'сохранять глубину, оставаясь в живом обмене',
-        practice: 'Поделитесь с одним безопасным человеком мыслью или переживанием, которое обычно оставляете только внутри.'
-      }
+      A:{name:'Сила · структура · ответственность',question:'Кто держит?',resource:'создавать опору, порядок и ясные границы',risk:'контроль, перегруз и запрет на уязвимость',task:'сохранять силу без постоянной мобилизации',practice:'Выберите одну задачу, которую можно не тащить в одиночку: делегируйте часть, попросите помощь или обозначьте предел ответственности.'},
+      B:{name:'Связь · близость · забота',question:'Кто кому нужен?',resource:'создавать безопасный контакт, верность и чуткость',risk:'слияние, спасательство и зависимость от одобрения',task:'оставаться собой внутри близости',practice:'В ближайшем разговоре прямо назовите одно своё желание или ограничение, не объясняя его слишком долго.'},
+      C:{name:'Выражение · движение · свобода',question:'Как мне жить живо?',resource:'оживлять новое, гибко меняться и давать идеям форму',risk:'хаос, рассеянность и бегство от завершения',task:'находить свободу внутри выбранной формы',practice:'Выберите одно незавершённое дело и доведите его до следующей ясной точки: отправить, закрыть, опубликовать или сознательно отменить.'},
+      D:{name:'Глубина · смысл · дистанция',question:'В чём смысл и как не потерять себя?',resource:'видеть закономерности и связывать разрозненное в целое',risk:'изоляция, перегруз смыслом и уход в невидимость',task:'сохранять глубину, оставаясь в живом обмене',practice:'Поделитесь с одним безопасным человеком мыслью или переживанием, которое обычно оставляете только внутри.'}
     };
 
     const WEEKDAY_DB = {
-      0: { name: 'Воскресенье', code: 'Солнце', text: 'Стиль проявления — через самовыражение, личное достоинство и потребность быть увиденным.' },
-      1: { name: 'Понедельник', code: 'Луна', text: 'Стиль проявления — через чувство, атмосферу и потребность в спокойной, доверительной среде.' },
-      2: { name: 'Вторник', code: 'Марс', text: 'Стиль проявления — через действие, прямоту и стремление быстро двигать ситуацию вперёд.' },
-      3: { name: 'Среда', code: 'Меркурий', text: 'Стиль проявления — через слово, обмен идеями и способность замечать связи.' },
-      4: { name: 'Четверг', code: 'Юпитер', text: 'Стиль проявления — через масштаб, развитие, передачу опыта и поиск большей картины.' },
-      5: { name: 'Пятница', code: 'Венера', text: 'Стиль проявления — через отношения, вкус, гармонию и внимание к ценности контакта.' },
-      6: { name: 'Суббота', code: 'Сатурн', text: 'Стиль проявления — через ответственность, последовательность и долгий взгляд на последствия.' }
+      0:{name:'Воскресенье',code:'Солнце',text:'Стиль проявления — через самовыражение, личное достоинство и потребность быть увиденным.'},
+      1:{name:'Понедельник',code:'Луна',text:'Стиль проявления — через чувство, атмосферу и потребность в спокойной, доверительной среде.'},
+      2:{name:'Вторник',code:'Марс',text:'Стиль проявления — через действие, прямоту и стремление быстро двигать ситуацию вперёд.'},
+      3:{name:'Среда',code:'Меркурий',text:'Стиль проявления — через слово, обмен идеями и способность замечать связи.'},
+      4:{name:'Четверг',code:'Юпитер',text:'Стиль проявления — через масштаб, развитие, передачу опыта и поиск большей картины.'},
+      5:{name:'Пятница',code:'Венера',text:'Стиль проявления — через отношения, вкус, гармонию и внимание к ценности контакта.'},
+      6:{name:'Суббота',code:'Сатурн',text:'Стиль проявления — через ответственность, последовательность и долгий взгляд на последствия.'}
     };
 
     const RELATION_DB = {
-      resonance: {
-        title: 'Резонанс',
-        description: 'Одна семейная линия: есть узнавание и сильная передача темы. Риск — повторить привычный способ жить без достаточной дистанции.'
-      },
-      support: {
-        title: 'Поддержка',
-        description: 'Семейства могут дополнять друг друга: одно даёт форму, другое — содержание. Риск — собирать себя только через опору на другого.'
-      },
-      tension: {
-        title: 'Напряжение',
-        description: 'В карте встречаются разные законы жизни. Это может стать источником роста, но также создавать внутренние качели и трудность выбора.'
-      },
-      gap: {
-        title: 'Разрыв',
-        description: 'Между семействами нет естественного мостика. Это не приговор: часть функции можно собрать по-своему, но ей обычно нужно учиться сознательно.'
-      }
+      resonance:{title:'Общая семейная логика',short:'резонанс',description:'Семейства совпадают: в линии легче узнать себя и одновременно легче повторить привычную стратегию без достаточной дистанции.'},
+      support:{title:'Взаимное дополнение',short:'поддержка',description:'Семейства могут усиливать друг друга: одно чаще даёт форму, другое — содержание. Важно не собирать себя только через другого.'},
+      tension:{title:'Два разных закона жизни',short:'напряжение',description:'В линии встречаются разные способы жить и решать. Это может стать ростом, но также создавать внутренние качели и необходимость выбирать сторону.'},
+      gap:{title:'Функция, которую нужно собрать',short:'разрыв',description:'Между семействами нет естественного мостика. В модели это означает: часть опыта приходится осваивать сознательно, а не получать готовой.'}
     };
 
-    // Этот слой не вычисляется по дате: его выбирает пользователь по своему опыту.
-    // Он показывает не «какой родитель на самом деле», а как его присутствие переживалось ребёнком.
     const PARENT_PRESENCE_DB = {
-      support: {
-        title: 'Опора',
-        summary: 'Родитель был включён, давал защиту, поддержку и понятные границы.',
-        reading: 'В этой связи можно искать ресурс: опыт того, что на взрослого можно опереться и при этом оставаться собой.'
-      },
-      deficit: {
-        title: 'Дефицит контакта',
-        summary: 'Родитель был эмоционально далёк, безразличен, отсутствовал, был слишком слаб или оставлял ребёнка справляться самому.',
-        reading: 'В этой связи важно исследовать, какую внутреннюю опору пришлось собирать самостоятельно — и где теперь всё ещё трудно ждать отклика или помощи.'
-      },
-      pressure: {
-        title: 'Разрушительное давление',
-        summary: 'Родитель контролировал через страх, унижал, подавлял, был агрессивен или непредсказуем.',
-        reading: 'В этой связи важно отделять собственный голос и границы от приспособления к давлению. Это описание пережитого режима, а не диагноз родителю.'
-      }
+      support:{title:'Опора',summary:'Родитель был включён, давал защиту, поддержку и понятные границы.',reading:'Здесь можно искать ресурс: опыт того, что на взрослого можно опереться и при этом оставаться собой.'},
+      deficit:{title:'Дефицит контакта',summary:'Родитель был эмоционально далёк, безразличен, отсутствовал, был слишком слаб или оставлял ребёнка справляться самому.',reading:'Здесь важно увидеть, какую внутреннюю функцию пришлось собирать самостоятельно и где теперь трудно ждать помощи или отклика.'},
+      pressure:{title:'Разрушительное давление',summary:'Родитель контролировал через страх, унижал, подавлял, был агрессивен или непредсказуем.',reading:'Здесь важно отличать собственный голос и границы от приспособления к давлению. Это описание пережитого режима, а не диагноз родителю.'}
     };
 
-    // Как один и тот же числовой тип читается в разных режимах родительского присутствия.
     const PARENT_PRESENCE_FAMILY_DB = {
-      A: {
-        support: 'Ресурс линии мог проявляться как защита, ясные правила и право рассчитывать на сильного взрослого.',
-        deficit: 'Могла закрепиться стратегия: собираться самой, ориентироваться на результат и не ждать утешения.',
-        pressure: 'Безопасность могла связываться с послушанием, контролем и страхом ошибки.'
-      },
-      B: {
-        support: 'Ресурс линии мог проявляться как тёплый контакт, принятие и близость без растворения в другом.',
-        deficit: 'Могла закрепиться привычка подстраиваться, чтобы контакт не исчез, и сомневаться в праве на собственные потребности.',
-        pressure: 'Чужие чувства могли переживаться как обязанность, а отделение — как вина или опасность потерять любовь.'
-      },
-      C: {
-        support: 'Ресурс линии мог проявляться как разрешение быть живой, любопытной, выражать себя и искать свой путь.',
-        deficit: 'Могла появиться потребность искать внимание через яркость или сомнение, можно ли опираться на устойчивый интерес взрослого.',
-        pressure: 'Спонтанность могла подавляться: ребёнок учится скрывать живое, чтобы не быть высмеянным или наказанным.'
-      },
-      D: {
-        support: 'Ресурс линии мог проявляться как уважение к внутреннему миру, вопросам и постепенному поиску смысла.',
-        deficit: 'Могла закрепиться привычка уходить во внутреннюю автономию, потому что живого отклика и диалога не хватало.',
-        pressure: 'Открыто говорить о своих мыслях могло быть трудно, если за них осуждали, обесценивали или наказывали дистанцией.'
-      }
+      A:{support:'Опора линии могла проявляться как защита, ясные правила и право рассчитывать на сильного взрослого.',deficit:'Могла закрепиться стратегия: собираться самому, ориентироваться на результат и не ждать утешения.',pressure:'Безопасность могла связываться с послушанием, контролем и страхом ошибки.'},
+      B:{support:'Опора линии могла проявляться как тёплый контакт, принятие и близость без растворения.',deficit:'Могла закрепиться привычка подстраиваться, чтобы контакт не исчез, и сомневаться в праве на собственные потребности.',pressure:'Чужие чувства могли переживаться как обязанность, а отделение — как вина или угроза потерять любовь.'},
+      C:{support:'Опора линии могла проявляться как разрешение быть живым, любопытным, выражать себя и искать свой путь.',deficit:'Могла появиться потребность искать внимание через яркость или сомнение, можно ли опираться на устойчивый интерес взрослого.',pressure:'Спонтанность могла подавляться: ребёнок учится скрывать живое, чтобы не быть высмеянным или наказанным.'},
+      D:{support:'Опора линии могла проявляться как уважение к внутреннему миру, вопросам и постепенному поиску смысла.',deficit:'Могла закрепиться привычка уходить во внутреннюю автономию, потому что живого отклика и диалога не хватало.',pressure:'Открыто говорить о своих мыслях могло быть трудно, если за них осуждали, обесценивали или наказывали дистанцией.'}
     };
+
+    const ANIMALS = ['Крыса','Бык','Тигр','Кролик','Дракон','Змея','Лошадь','Коза','Обезьяна','Петух','Собака','Свинья'];
+    const ELEMENTS = ['Дерево','Огонь','Земля','Металл','Вода'];
+    const STEM_ELEMENTS = ['Дерево','Дерево','Огонь','Огонь','Земля','Земля','Металл','Металл','Вода','Вода'];
+    const STEM_POLARITY = ['Ян','Инь','Ян','Инь','Ян','Инь','Ян','Инь','Ян','Инь'];
+    const GENERATES = {Дерево:'Огонь',Огонь:'Земля',Земля:'Металл',Металл:'Вода',Вода:'Дерево'};
+    const CONTROLS = {Дерево:'Земля',Земля:'Вода',Вода:'Огонь',Огонь:'Металл',Металл:'Дерево'};
+    const TRINES = [ ['Крыса','Дракон','Обезьяна'], ['Бык','Змея','Петух'], ['Тигр','Лошадь','Собака'], ['Кролик','Коза','Свинья'] ];
+    const OPPOSITIONS = {Крыса:'Лошадь',Лошадь:'Крыса',Бык:'Коза',Коза:'Бык',Тигр:'Обезьяна',Обезьяна:'Тигр',Кролик:'Петух',Петух:'Кролик',Дракон:'Собака',Собака:'Дракон',Змея:'Свинья',Свинья:'Змея'};
 
     const $ = (selector) => document.querySelector(selector);
+    const mod = (value, divisor) => ((value % divisor) + divisor) % divisor;
 
-    function escapeHtml(value = '') {
-      return String(value)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+    function escapeHtml(value = '') { return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
+    function titleName(name, fallback) { const clean = String(name || '').trim(); return clean ? escapeHtml(clean) : fallback; }
+    function capitalize(text) { return text ? text.charAt(0).toUpperCase() + text.slice(1) : ''; }
+    function dateParts(dateString) { const [year,month,day] = dateString.split('-').map(Number); return {year,month,day}; }
+    function sumDigits(value) { return String(value).replace(/\D/g,'').split('').reduce((sum,digit) => sum + Number(digit),0); }
+    function reduceNumber(value) { let current = Number(value); while (current > 9 && current !== 11 && current !== 22) current = sumDigits(current); return current; }
+    function calculateCore(dateString) { const digits = dateString.replace(/\D/g,''); const sum = sumDigits(digits); const core = reduceNumber(sum); return {sum,core,formula:digits.split('').join(' + ') + ' = ' + sum + (sum !== core ? ' → ' + core : '')}; }
+    function formatDate(dateString) { const {year,month,day} = dateParts(dateString); return new Intl.DateTimeFormat('ru-RU',{day:'2-digit',month:'long',year:'numeric'}).format(new Date(year,month - 1,day)); }
+
+    function easternPillar(dateString) {
+      const {year,month,day} = dateParts(dateString);
+      let lunarYear = year;
+      // В авторской версии: до 4 февраля используется предыдущий год; 1–4 февраля отмечаются для ручной проверки.
+      const needsCheck = month === 2 && day >= 1 && day <= 4;
+      if (month < 2 || (month === 2 && day < 4)) lunarYear -= 1;
+      const offset = lunarYear - 1984; // 1984 = Дерево Ян / Крыса
+      const animal = ANIMALS[mod(offset,12)];
+      const stem = mod(offset,10);
+      return {lunarYear,animal,element:STEM_ELEMENTS[stem],polarity:STEM_POLARITY[stem],needsCheck};
     }
 
-    function titleName(name, fallback) {
-      const clean = String(name || '').trim();
-      return clean ? escapeHtml(clean) : fallback;
-    }
-
-    function dateParts(dateString) {
-      const [year, month, day] = dateString.split('-').map(Number);
-      return { year, month, day };
-    }
-
-    function sumDigits(value) {
-      return String(value).replace(/\D/g, '').split('').reduce((sum, digit) => sum + Number(digit), 0);
-    }
-
-    function reduceNumber(value) {
-      let current = Number(value);
-      while (current > 9 && current !== 11 && current !== 22) {
-        current = sumDigits(current);
-      }
-      return current;
-    }
-
-    function calculateCore(dateString) {
-      const digits = dateString.replace(/\D/g, '');
-      const sum = sumDigits(digits);
-      const core = reduceNumber(sum);
-      return { sum, core, formula: digits.split('').join(' + ') + ' = ' + sum + (sum !== core ? ' → ' + core : '') };
-    }
-
-    function formatDate(dateString) {
-      const { year, month, day } = dateParts(dateString);
-      return new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date(year, month - 1, day));
-    }
-
-    function buildPerson(role, name, date) {
+    function buildPerson(role,name,date) {
       if (!date) return null;
-      const calc = calculateCore(date);
-      const data = NUMBER_DB[calc.core];
-      const { day } = dateParts(date);
-      return {
-        role,
-        name: String(name || '').trim(),
-        date,
-        core: calc.core,
-        family: data.family,
-        profile: data,
-        familyData: FAMILY_DB[data.family],
-        day,
-        dayNumber: reduceNumber(day),
-        formula: calc.formula,
-        weekday: new Date(date + 'T12:00:00').getDay()
-      };
+      const calc = calculateCore(date); const data = NUMBER_DB[calc.core]; const parts = dateParts(date);
+      return { role, name:String(name || '').trim(), date, core:calc.core, family:data.family, profile:data, familyData:FAMILY_DB[data.family], day:parts.day, dayNumber:reduceNumber(parts.day), formula:calc.formula, weekday:new Date(date + 'T12:00:00').getDay(), east:easternPillar(date) };
     }
 
-    function relationType(familyA, familyB) {
-      if (familyA === familyB) return 'resonance';
-      const pair = [familyA, familyB].sort().join('');
-      if (pair === 'AB' || pair === 'CD') return 'support';
-      if (pair === 'AC' || pair === 'BD') return 'tension';
-      return 'gap';
+    function relationType(familyA,familyB) { if (familyA === familyB) return 'resonance'; const pair = [familyA,familyB].sort().join(''); if (pair === 'AB' || pair === 'CD') return 'support'; if (pair === 'AC' || pair === 'BD') return 'tension'; return 'gap'; }
+    function getRelation(left,right) { const type = relationType(left.family,right.family); return {...RELATION_DB[type],type,left,right}; }
+
+    function animalRelation(a,b) {
+      if (a === b) return {type:'repeat',title:'Повторяющееся животное',description:'Один и тот же знак в линии усиливает тему узнавания и повторения сценария.'};
+      if (OPPOSITIONS[a] === b) return {type:'opposition',title:'Оппозиция животных',description:'В восточном слое это пара противоположностей: различия особенно заметны и требуют сознательного моста.'};
+      if (TRINES.some(group => group.includes(a) && group.includes(b))) return {type:'trine',title:'Природный союз',description:'Животные входят в один тригон: традиционно это читается как более естественная поддержка и сходный темп.'};
+      return {type:'neutral',title:'Нейтральная связка',description:'Между животными нет прямого союза или оппозиции; здесь важнее смотреть на элементы и числовую линию.'};
     }
 
-    function getRelation(left, right) {
-      const type = relationType(left.family, right.family);
-      return { ...RELATION_DB[type], type, left, right };
+    function elementRelation(a,b) {
+      if (a === b) return {type:'same',title:'Одна стихия',description:'Стихии совпадают: общий способ реагировать может быть понятен без слов, но риск — замкнуться в одной логике.'};
+      if (GENERATES[a] === b) return {type:'feeds',title:`${a} питает ${b}`,description:`В цикле У-син элемент первого человека поддерживает элемент второго.`};
+      if (GENERATES[b] === a) return {type:'fed',title:`${b} питает ${a}`,description:`В цикле У-син элемент второго человека поддерживает элемент первого.`};
+      if (CONTROLS[a] === b) return {type:'controls',title:`${a} контролирует ${b}`,description:`В цикле У-син элемент первого человека оказывает контролирующее воздействие на элемент второго.`};
+      if (CONTROLS[b] === a) return {type:'controlled',title:`${b} контролирует ${a}`,description:`В цикле У-син элемент второго человека оказывает контролирующее воздействие на элемент первого.`};
+      return {type:'neutral',title:'Нейтральная динамика стихий',description:'Нет прямого отношения питания или контроля; связь уточняется другими слоями.'};
     }
 
-    function buildFamilyCounts(people) {
-      const weights = { user: 4, mother: 3, father: 3, grandparent: 1 };
-      const weighted = { A: 0, B: 0, C: 0, D: 0 };
-      const raw = { A: 0, B: 0, C: 0, D: 0 };
-      people.forEach(person => {
-        const weight = weights[person.role] || 1;
-        weighted[person.family] += weight;
-        raw[person.family] += 1;
+    function eastPair(left,right) {
+      const animal = animalRelation(left.east.animal,right.east.animal); const element = elementRelation(left.east.element,right.east.element);
+      return {left,right,animal,element,stress:animal.type === 'opposition' || element.type === 'controls' || element.type === 'controlled',support:animal.type === 'trine' || element.type === 'feeds' || element.type === 'fed'};
+    }
+
+    function buildCounts(people,key) {
+      const counts = {}; people.forEach(person => { const value = typeof key === 'function' ? key(person) : person[key]; if (value) counts[value] = (counts[value] || 0) + 1; });
+      return Object.entries(counts).filter(([,count]) => count >= 2).sort((a,b) => b[1] - a[1]);
+    }
+
+    function getDominantFamily(user,people) {
+      const weights = {user:4,mother:3,father:3,grandparent:1}; const weighted = {A:0,B:0,C:0,D:0}; const raw = {A:0,B:0,C:0,D:0};
+      people.forEach(person => { weighted[person.family] += weights[person.role] || 1; raw[person.family] += 1; });
+      const entries = Object.entries(weighted).sort((a,b) => b[1]-a[1]); const high = entries[0][1]; const tied = entries.filter(([,v]) => v === high).map(([f]) => f); const family = tied.includes(user.family) ? user.family : tied[0];
+      return {family,raw,weighted,tied};
+    }
+
+    function buildPattern(user,mother,father,dominant,people) {
+      const top = FAMILY_DB[dominant.family]; const parentFamilies = [mother,father].filter(Boolean).map(p => p.family); const sameParents = mother && father && mother.family === father.family; const childDifferent = sameParents && user.family !== mother.family; const repeats = Object.entries(dominant.raw).filter(([,c]) => c >= 2).sort((a,b)=>b[1]-a[1]).slice(0,2);
+      let heading = 'Перевести сильную семейную тему в свою форму'; let text = `В карте заметнее всего семейство ${dominant.family}: ${top.name.toLowerCase()}. Его ресурс — ${top.resource}; риск — ${top.risk}. Ваша задача — ${top.task}.`;
+      if (childDifferent) { heading = 'Удержать своё ядро рядом с сильной родительской логикой'; text = `Обе родительские линии относятся к семейству ${mother.family}, а ваше ядро — к ${user.family}. В модели это не означает конфликт как факт, но показывает другую жизненную функцию: ${user.familyData.name.toLowerCase()} рядом с привычной для семьи логикой ${mother.familyData.name.toLowerCase()}.`; }
+      else if (parentFamilies.length === 2 && !parentFamilies.includes(user.family)) { heading = 'Собрать функцию, которой нет в паре родителей'; text = `Ваше семейство ${user.family} не представлено в числовой паре родителей. В карте это самостоятельная задача: развивать ${user.familyData.name.toLowerCase()} через собственный опыт, а не через готовый семейный образец.`; }
+      else if (repeats.length) { heading = 'Преобразовать повторяющуюся линию'; text = `Семейство ${dominant.family} повторяется у нескольких участников карты. Это делает тему «${top.name.toLowerCase()}» заметной семейной нитью. Ваша задача — сохранить её ресурс: ${top.resource}, не воспроизводя её риск: ${top.risk}.`; }
+      return {heading,text,repeats};
+    }
+
+    function nextLoKhak(person,startYear,count = 9) {
+      const targetAnimals = [{type:'Малый Ло Кхак',offset:2,explain:'задержки, усталость, мелкие препятствия'}, {type:'Средний Ло Кхак',offset:3,explain:'периоды, где стоит внимательнее относиться к решениям и ресурсу'}, {type:'Большой Ло Кхак',offset:6,explain:'год противника: традиционно относится к периоду повышенного внимания'}];
+      const baseIndex = ANIMALS.indexOf(person.east.animal);
+      return targetAnimals.map(item => {
+        const targetAnimal = ANIMALS[mod(baseIndex + item.offset,12)]; const years = [];
+        for (let y=startYear; y < startYear + count; y += 1) { if (ANIMALS[mod(y - 1984,12)] === targetAnimal) years.push(y); }
+        return {...item,targetAnimal,years};
       });
-      return { weighted, raw };
     }
 
-    function getDominantFamily(user, people) {
-      const { weighted, raw } = buildFamilyCounts(people);
-      const entries = Object.entries(weighted).sort((a, b) => b[1] - a[1]);
-      const highest = entries[0][1];
-      const tied = entries.filter(([, value]) => value === highest).map(([family]) => family);
-      const family = tied.includes(user.family) ? user.family : tied[0];
-      return { family, weighted, raw, tied };
+    function currentLunarYear() { const now = new Date(); const y = now.getFullYear(); return (now.getMonth() === 0 || (now.getMonth() === 1 && now.getDate() < 4)) ? y - 1 : y; }
+    function loKhakNow(person) {
+      const currentYear = currentLunarYear(); const currentAnimal = ANIMALS[mod(currentYear - 1984,12)]; const relation = nextLoKhak(person,currentYear,1).find(item => item.targetAnimal === currentAnimal);
+      return relation ? `В ${currentYear} году (год ${currentAnimal}) для вашего годового знака отмечается ${relation.type.toLowerCase()}. В этой системе это не прогноз, а повод внимательнее отнестись к нагрузке и решениям.` : `В ${currentYear} году (год ${currentAnimal}) по упрощённой таблице Ло Кхак для вашего годового знака нет отдельной отметки.`;
     }
 
-    function buildPatternText(user, mother, father, dominant, people) {
-      const topFamily = dominant.family;
-      const top = FAMILY_DB[topFamily];
-      const parentFamilies = [mother, father].filter(Boolean).map(p => p.family);
-      const userFamilyMissingInParents = parentFamilies.length === 2 && !parentFamilies.includes(user.family);
-      const parentsSameFamily = mother && father && mother.family === father.family;
-      const parentRelation = mother && father ? getRelation(mother, father) : null;
+    function buildParentInput(role,nameSelector,dateSelector,presenceSelector) { const name=$(nameSelector).value; const date=$(dateSelector).value; return {role,name:String(name || '').trim(),presence:$(presenceSelector).value,person:buildPerson(role,name,date)}; }
+    function readPerson(role,nameSelector,dateSelector) { return buildPerson(role,$(nameSelector).value,$(dateSelector).value); }
 
-      let heading = 'Развить свою форму семейной темы';
-      let text = `В карте заметнее всего семейство ${topFamily}: ${top.name.toLowerCase()}. Его ресурс — ${top.resource}. Главная задача — ${top.task}.`;
-      let question = `Где эта тема уже помогает вам, а где начинает работать слишком жёстко?`;
-
-      if (parentsSameFamily && user.family !== mother.family) {
-        heading = 'Собрать своё направление рядом с сильной родительской линией';
-        text = `Обе родительские линии относятся к семейству ${mother.family}, а ваше ядро — к ${user.family}. В символической карте это указывает на различие жизненного акцента: вы можете нести другую функцию, не обязательно отменяя опыт семьи. Ваша задача — дать место ${user.familyData.name.toLowerCase()} рядом с тем, что в семье уже было привычным.`;
-        question = `Что в вашем способе жить отличает вас от семьи — и что из этого хочется не доказывать, а спокойно признать?`;
-      } else if (userFamilyMissingInParents) {
-        heading = 'Создать функцию, которой не было в родительской паре';
-        text = `Ваше семейство ${user.family} не представлено в числовой паре родителей. Это не говорит о дефиците как о факте биографии, но в модели показывает самостоятельную задачу: развивать ${user.familyData.name.toLowerCase()} не по готовому образцу, а через собственные решения и опыт.`;
-        question = `Какой навык вашего семейства вы уже строите для себя без очевидного примера рядом?`;
-      } else if (parentRelation && (parentRelation.type === 'tension' || parentRelation.type === 'gap')) {
-        heading = 'Не выбирать один из двух полюсов';
-        text = `Карта родительской пары показывает тип «${parentRelation.title.toLowerCase()}». В такой конфигурации важно не сводить себя к одному семейному закону. Ваша опора — научиться удерживать обе функции: ${mother.familyData.name.toLowerCase()} и ${father.familyData.name.toLowerCase()}, выбирая свою пропорцию.`;
-        question = `Какие два качества вы привыкли противопоставлять друг другу, хотя оба могли бы стать вашими ресурсами?`;
-      } else if (dominant.raw[topFamily] >= 3) {
-        heading = 'Преобразовать повторяющуюся линию';
-        text = `Семейство ${topFamily} повторяется у нескольких участников карты. Это делает тему ${top.name.toLowerCase()} заметной семейной нитью. Ваш путь не в том, чтобы отказаться от неё, а в том, чтобы взять её ресурс — ${top.resource} — и не воспроизводить её риск: ${top.risk}.`;
-        question = `Как эта линия проявляется в вашей семье как сила — и какую цену она иногда просит?`;
-      }
-
-      const repeated = Object.entries(dominant.raw)
-        .filter(([, count]) => count >= 2)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 2)
-        .map(([family, count]) => ({ family, count, data: FAMILY_DB[family] }));
-
-      return { heading, text, question, repeated };
-    }
-
-    function relationCard(title, relation, leftName, rightName) {
-      return `
-        <article class="relation-card">
-          <div class="relation-title">${title}</div>
-          <div class="relation-name">${relation.title}</div>
-          <p>${relation.description}</p>
-          <span class="relation-code">${leftName} · ${relation.left.family} ↔ ${rightName} · ${relation.right.family}</span>
-        </article>
-      `;
-    }
-
-    function renderRepeats(repeated) {
-      if (!repeated.length) {
-        return `<div class="mini-card"><h4>Пока мало повторений</h4><p>Добавьте даты родителей или бабушек и дедушек — тогда система сможет увидеть, какие семейства повторяются в линии.</p></div>`;
-      }
-      return repeated.map(item => `
-        <div class="mini-card">
-          <h4>Семейство ${item.family} · ${item.count} ${pluralPeople(item.count)}</h4>
-          <p>${item.data.name}. В карте повторяется тема: ${item.data.resource}.</p>
-        </div>
-      `).join('');
-    }
-
-    function pluralPeople(count) {
-      if (count === 1) return 'человек';
-      if (count >= 2 && count <= 4) return 'человека';
-      return 'человек';
-    }
-
-    function buildParentInput(role, nameSelector, dateSelector, presenceSelector) {
-      const name = $(nameSelector).value;
-      const date = $(dateSelector).value;
-      const presence = $(presenceSelector).value;
-      return {
-        role,
-        name: String(name || '').trim(),
-        presence,
-        person: buildPerson(role, name, date)
-      };
-    }
-
-    function renderParentPresenceCard(input, label) {
+    function renderPresence(input,label) {
       if (!input || !input.presence) return '';
-      const presence = PARENT_PRESENCE_DB[input.presence];
-      const person = input.person;
-      const personName = titleName(input.name, label);
-      const familyLine = person
-        ? PARENT_PRESENCE_FAMILY_DB[person.family][input.presence]
-        : 'Добавьте дату рождения, чтобы система также сопоставила этот опыт с числовым типом родительской линии.';
-
-      return `
-        <article class="presence-card ${input.presence}">
-          <span class="presence-badge">${label} · ${presence.title}</span>
-          <h4>${personName}</h4>
-          <p>${presence.summary}</p>
-          <p class="presence-line"><strong>Как это меняет чтение линии:</strong> ${familyLine}</p>
-        </article>
-      `;
+      const data = PARENT_PRESENCE_DB[input.presence]; const person = input.person; const line = person ? PARENT_PRESENCE_FAMILY_DB[person.family][input.presence] : 'Добавьте дату рождения, чтобы система сопоставила этот опыт с числовым и восточным слоями линии.';
+      return `<article class="presence-card ${input.presence}"><span class="presence-badge">${label} · ${data.title}</span><h4>${titleName(input.name,label)}</h4><p>${data.summary}</p><p><strong>Как это меняет чтение линии:</strong> ${line}</p></article>`;
     }
 
-    function renderParentPresence(parentInputs) {
-      const cards = [
-        renderParentPresenceCard(parentInputs.mother, 'Мать'),
-        renderParentPresenceCard(parentInputs.father, 'Отец')
-      ].filter(Boolean);
+    function renderRelation(title,relation,leftName,rightName) { return `<article class="relation-card"><div class="relation-label">${title}</div><div class="relation-title">${relation.title}</div><p>${relation.description}</p><span class="relation-code">${leftName} · ${relation.left.family} ↔ ${rightName} · ${relation.right.family}</span></article>`; }
 
-      if (!cards.length) {
-        return `<div class="presence-empty">Выберите режим родительского присутствия у матери или отца, чтобы включить этот слой. Он задаётся по вашему фактическому опыту, а не рассчитывается из даты.</div>`;
-      }
-      return cards.join('');
+    function renderEastCard(person,label) {
+      const e = person.east; return `<article class="east-card"><span class="east-code">${label}</span><div class="east-title">${e.animal} · ${e.element} ${e.polarity}</div><p>Годовой столп: ${e.lunarYear}. В этой версии он используется для сопоставления поколений по животным и циклам У-син.</p>${e.needsCheck ? '<p class="east-note">Дата приходится на 1–4 февраля: перед окончательным выводом стоит сверить дату китайского Нового года.</p>' : ''}</article>`;
     }
 
-    function renderReport(user, mother, father, grandparents, parentInputs) {
-      const people = [user, mother, father, ...grandparents].filter(Boolean);
-      const dominant = getDominantFamily(user, people);
-      const pattern = buildPatternText(user, mother, father, dominant, people);
-      const userName = titleName(user.name, 'Ваша');
-      const motherName = mother ? titleName(mother.name, 'Мать') : '';
-      const fatherName = father ? titleName(father.name, 'Отец') : '';
-      const weekday = WEEKDAY_DB[user.weekday];
-      const relations = [];
-      if (mother) relations.push(relationCard('Ваша линия и мать', getRelation(user, mother), userName, motherName));
-      if (father) relations.push(relationCard('Ваша линия и отец', getRelation(user, father), userName, fatherName));
-      if (mother && father) relations.push(relationCard('Поле родительской пары', getRelation(mother, father), motherName, fatherName));
-      const relationHtml = relations.length ? relations.join('') : `<div class="empty-relation">Добавьте даты родителей, чтобы система показала связи между линиями. Ваш личный профиль уже рассчитан ниже.</div>`;
+    function renderEastPair(title,pair,leftName,rightName) {
+      return `<article class="relation-card"><div class="relation-label">${title}</div><div class="relation-title">${pair.element.title}</div><p>${pair.element.description}</p><p style="margin-top:9px"><strong>${pair.animal.title}.</strong> ${pair.animal.description}</p><span class="relation-code">${leftName} · ${pair.left.east.animal} ↔ ${rightName} · ${pair.right.east.animal}</span></article>`;
+    }
 
+    function renderRepetitions(entries,label,description) {
+      if (!entries.length) return `<div class="mini-card"><h4>${label}</h4><p>${description}</p></div>`;
+      return entries.slice(0,2).map(([value,count]) => `<div class="mini-card"><h4>${label}: ${value} · ${count} ${pluralPeople(count)}</h4><p>Повторение в трёх поколениях усиливает эту тему как отдельный сигнал для синтеза.</p></div>`).join('');
+    }
+    function pluralPeople(count) { return count === 1 ? 'человек' : count >= 2 && count <= 4 ? 'человека' : 'человек'; }
+
+    function buildSynthesis(user,mother,father,dominant,people) {
+      const signals=[]; const insights=[];
+      [[mother,'материнской'],[father,'отцовской']].forEach(([parent,line]) => {
+        if (!parent) return;
+        const num = getRelation(user,parent); const east = eastPair(user,parent); const parentName = titleName(parent.name, line === 'материнской' ? 'Мать' : 'Отец');
+        const numericalTension = num.type === 'tension' || num.type === 'gap';
+        if (numericalTension && east.stress) { signals.push('double-tension'); insights.push(`В ${line} линии числовой слой показывает «${num.short}», а восточный слой — ${east.element.title.toLowerCase()} или ${east.animal.title.toLowerCase()}. Два слоя одновременно выделяют различие способов жить и реагировать.`); }
+        else if ((num.type === 'resonance' || num.type === 'support') && east.support) { signals.push('double-support'); insights.push(`В ${line} линии есть подтверждение ресурса: числовое сопоставление «${num.short}» сочетается с восточной связкой «${east.element.title.toLowerCase()}» / «${east.animal.title.toLowerCase()}».`); }
+        else { insights.push(`${parentName}: слои не дают одного и того же сигнала — это не ошибка, а повод не сводить отношения к одной формуле.`); }
+      });
+      let heading = 'Свести слои в одну проверяемую тему'; let text = `Главной остаётся тема семейства ${dominant.family}: ${FAMILY_DB[dominant.family].name.toLowerCase()}. Она повторяется или получает наибольший вес в текущей карте.`;
+      if (signals.includes('double-tension')) { heading = 'Тема различия подтверждается двумя слоями'; text = 'В одной или нескольких родительских линиях числовое соотношение и восточный слой одновременно показывают напряжение. Это не утверждение о фактах биографии, а сигнал: здесь особенно важно различать собственный способ жить и автоматическую семейную реакцию.'; }
+      else if (signals.includes('double-support')) { heading = 'Ресурс линии получает двойное подтверждение'; text = 'В одной или нескольких линиях числовой и восточный слои указывают на взаимное дополнение или природную поддержку. Это зона, где можно искать не только сценарий, но и устойчивый ресурс рода.'; }
+      return {heading,text,insights};
+    }
+
+    function renderReport(user,mother,father,grandparents,parentInputs) {
+      const people = [user,mother,father,...grandparents].filter(Boolean); const dominant = getDominantFamily(user,people); const pattern = buildPattern(user,mother,father,dominant,people); const synth = buildSynthesis(user,mother,father,dominant,people);
+      const userName = titleName(user.name,'Вы'); const motherName = mother ? titleName(mother.name,'Мать') : ''; const fatherName = father ? titleName(father.name,'Отец') : ''; const weekday=WEEKDAY_DB[user.weekday];
+      const relationCards=[]; if(mother) relationCards.push(renderRelation('Числовое соотношение: вы и мать',getRelation(user,mother),userName,motherName)); if(father) relationCards.push(renderRelation('Числовое соотношение: вы и отец',getRelation(user,father),userName,fatherName)); if(mother && father) relationCards.push(renderRelation('Числовое поле родительской пары',getRelation(mother,father),motherName,fatherName));
+      const presence=[renderPresence(parentInputs.mother,'Мать'),renderPresence(parentInputs.father,'Отец')].filter(Boolean).join('') || '<div class="empty-state">Укажите режим присутствия матери и/или отца, чтобы добавить этот контекст к рассчитанным линиям.</div>';
+      const eastCards=[renderEastCard(user,'Вы')]; if(mother) eastCards.push(renderEastCard(mother,'Мать')); if(father) eastCards.push(renderEastCard(father,'Отец'));
+      const eastPairs=[]; if(mother) eastPairs.push(renderEastPair('Ба-цзы: вы и мать',eastPair(user,mother),userName,motherName)); if(father) eastPairs.push(renderEastPair('Ба-цзы: вы и отец',eastPair(user,father),userName,fatherName));
+      const animalRepeats=buildCounts(people,p=>p.east.animal); const elementRepeats=buildCounts(people,p=>p.east.element); const startYear=currentLunarYear(); const lo=nextLoKhak(user,startYear,9);
       const report = `
-        <div class="report-toolbar">
-          <div>
-            <div class="report-kicker">Персональная карта</div>
-            <h2>${userName}, ваш расчёт</h2>
-            <div class="report-meta">Дата рождения: ${formatDate(user.date)} · Расчёт: ${user.formula}</div>
-          </div>
-          <button class="button button-secondary" type="button" id="print-report">Сохранить в PDF</button>
-        </div>
+        <div class="report-toolbar"><div><div class="report-kicker">Персональная карта · пять слоёв</div><h2>${userName}, ваш расчёт</h2><div class="report-meta">${formatDate(user.date)} · числовая формула: ${user.formula}</div></div><button class="button button-secondary" type="button" id="print-report">Сохранить в PDF</button></div>
+        <div class="report-note">Эта карта показывает, как разные символические системы соотносятся друг с другом. Режим родительского присутствия задаётся только вами и описывает пережитый опыт связи; он не вычисляется по дате и не является диагнозом родителю.</div>
 
-        <div class="report-note">Числовые слои этой карты строятся по датам рождения. Режим родительского присутствия добавляется только по вашему выбору и описывает пережитый опыт связи, а не устанавливает факты о личности родителя.</div>
+        <article class="profile-hero"><div class="core-badge"><div class="core-value">${user.core}</div><div class="core-label">числовое ядро</div></div><div><span class="family-tag">Семейство ${user.family} · ${user.familyData.name}</span><h3>${user.profile.archetype}</h3><p>Ваш основной вектор — <strong>${user.profile.title.toLowerCase()}</strong>. В ресурсе это способность ${user.profile.strength}; в напряжении может проявляться тенденция ${user.profile.shadow}.</p></div></article>
 
-        <article class="profile-hero">
-          <div class="core-badge">
-            <div class="core-value">${user.core}</div>
-            <div class="core-label">Ваше ядро</div>
-          </div>
-          <div>
-            <span class="family-tag">Семейство ${user.family} · ${user.familyData.name}</span>
-            <h3>${user.profile.archetype}</h3>
-            <p>Ваш основной вектор — <strong>${user.profile.title.toLowerCase()}</strong>. В ресурсе это способность ${user.profile.strength}; в напряжении может проявляться тенденция ${user.profile.shadow}.</p>
-          </div>
-        </article>
+        <section class="report-section"><h3>1. Числовой и архетипический слои</h3><p>Это основа карты: расчёт ядра, архетипа и уточняющего стиля проявления по дню недели.</p><div class="report-grid"><article class="report-card"><div class="small-title">Дар</div><h4>${user.profile.archetype}</h4><p>${capitalize(user.profile.strength)}.</p></article><article class="report-card"><div class="small-title">Зона внимания</div><h4>Полярность числа</h4><p>${capitalize(user.profile.shadow)}.</p></article><article class="report-card"><div class="small-title">${weekday.code}</div><h4>${weekday.name}</h4><p>${weekday.text}</p></article></div></section>
 
-        <div class="report-grid">
-          <article class="report-card">
-            <div class="small-title">Сильная сторона</div>
-            <h3>${user.profile.archetype}</h3>
-            <p>${capitalize(user.profile.strength)}.</p>
-          </article>
-          <article class="report-card">
-            <div class="small-title">В отношениях</div>
-            <h3>Как сохранять себя</h3>
-            <p>${capitalize(user.profile.relation)}.</p>
-          </article>
-          <article class="report-card">
-            <div class="small-title">В реализации</div>
-            <h3>Где раскрывается ресурс</h3>
-            <p>${capitalize(user.profile.realization)}.</p>
-          </article>
-        </div>
+        <section class="report-section"><h3>2. Режим родительского присутствия</h3><p>Здесь карта перестаёт быть только расчётом: вы указываете, в каком качестве родитель присутствовал в вашей жизни. Этот слой задаёт контекст, в котором читаются линии.</p><div class="presence-grid">${presence}</div></section>
 
-        <section class="report-section">
-          <h3>Стиль проявления</h3>
-          <p>Это дополнительный слой: день недели рождения показывает не «кто вы», а как вы чаще входите в контакт, принимаете решения и реагируете на среду.</p>
-          <div class="report-grid">
-            <article class="report-card">
-              <div class="small-title">${weekday.code}</div>
-              <h3>${weekday.name}</h3>
-              <p>${weekday.text}</p>
-            </article>
-            <article class="report-card">
-              <div class="small-title">Число дня</div>
-              <h3>${String(user.day).padStart(2, '0')} → ${user.dayNumber}</h3>
-              <p>День рождения добавляет индивидуальную манеру проявлять ядро. В базовой версии он используется как уточняющий слой, без жёстких выводов.</p>
-            </article>
-            <article class="report-card">
-              <div class="small-title">Вопрос семейства</div>
-              <h3>«${user.familyData.question}»</h3>
-              <p>Ваша практическая задача: ${user.familyData.task}.</p>
-            </article>
-          </div>
-        </section>
+        <section class="report-section"><h3>3. Родовая динамика: числовые линии</h3><p>Это не отдельные непонятные карточки, а конкретное сравнение семейных функций: где линии совпадают, дополняют друг друга, живут по разным законам или требуют сознательно построить мост.</p><div class="relation-grid">${relationCards.length ? relationCards.join('') : '<div class="empty-state">Добавьте даты родителей, чтобы сравнить материнскую, отцовскую и общую родительскую линии.</div>'}</div></section>
 
-        <section class="report-section">
-          <h3>Режим родительского присутствия</h3>
-          <p>Этот слой показывает, в каком качестве родитель присутствовал в вашей жизни: как опора, как дефицит контакта или как разрушительное давление. Он не рассчитывается из даты — его выбираете вы.</p>
-          <div class="parent-presence-grid">${renderParentPresence(parentInputs)}</div>
-        </section>
+        <section class="report-section"><h3>4. Восточный слой: Ба-цзы</h3><p>В этой версии используется годовой столп: животное и элемент года рождения. Он нужен для сравнения поколений по циклам У-син, союзам и оппозициям животных.</p><div class="east-grid">${eastCards.join('')}</div><div class="relation-grid">${eastPairs.length ? eastPairs.join('') : '<div class="empty-state">Добавьте дату рождения матери или отца, чтобы увидеть восточную динамику пары.</div>'}</div></section>
 
-        <section class="report-section">
-          <h3>Связи между линиями</h3>
-          <p>Тип связи выводится из сочетания семейств. Он показывает структуру сопоставления в модели, а режим присутствия выше задаёт, как эта линия фактически переживалась в отношениях.</p>
-          <div class="relationship-grid">${relationHtml}</div>
-        </section>
+        <section class="report-section"><h3>Повторения в трёх поколениях</h3><p>Это отдельные сигналы для синтеза. Повторение не доказывает сценарий, но показывает, какую тему стоит проверить внимательнее.</p><div class="synthesis"><article class="synthesis-main"><div class="small-title">Числовая семейная нить</div><h4>${pattern.heading}</h4><p>${pattern.text}</p></article><div class="synthesis-side">${renderRepetitions(pattern.repeats.map(([family,count]) => [family,count]),'Повтор семейства','Добавьте больше данных семьи, чтобы увидеть повторения семейств.')} ${renderRepetitions(animalRepeats,'Повтор животного','Пока нет повторяющихся животных в введённых поколениях.')} ${renderRepetitions(elementRepeats,'Повтор элемента','Пока нет повторяющихся элементов в введённых поколениях.')}</div></div></section>
 
-        <section class="report-section">
-          <h3>Главная тема карты</h3>
-          <p>Приоритет получают повторения в семье и то, как ваше ядро соотносится с линиями родителей.</p>
-          <div class="theme-wrap">
-            <article class="theme-main">
-              <div class="small-title">Фокус навигации</div>
-              <h4>${pattern.heading}</h4>
-              <p>${pattern.text}</p>
-            </article>
-            <div class="theme-side">
-              ${renderRepeats(pattern.repeated)}
-            </div>
-          </div>
-        </section>
+        <section class="report-section"><h3>5. Тибетский слой: Ло Кхак</h3><p>Упрощённый расчёт по годовому животному: это не предсказание, а традиционный маркер периодов, к которым стоит отнестись внимательнее. В семейной версии его сопоставляют с реальными событиями рода.</p><div class="lo-grid">${lo.map(item => `<article class="lo-card"><div class="lo-type">${item.type}</div><h4>Годы ${item.targetAnimal}</h4><div class="lo-years">${item.years.length ? item.years.join(', ') : 'за горизонтом 9 лет'}</div><div class="lo-sub">${item.explain}</div></article>`).join('')}</div><div class="report-note" style="margin-bottom:0">${loKhakNow(user)}</div></section>
 
-        <section class="report-section">
-          <h3>Практический фокус на неделю</h3>
-          <p>Не список из десятков рекомендаций, а один шаг, который помогает проверить карту в реальной жизни.</p>
-          <article class="practice-card">
-            <div class="practice-copy">
-              <div class="small-title">Фраза-опора</div>
-              <h4>«${user.profile.anchor}»</h4>
-            </div>
-            <div class="practice-side">
-              <p><strong>Один конкретный шаг</strong>${user.familyData.practice}</p>
-            </div>
-          </article>
-        </section>
+        <section class="report-section"><h3>Синтез: где слои говорят об одном</h3><p>Главный смысл «Родовой навигации» — не складывать трактовки в список, а замечать места, где разные системы усиливают один и тот же мотив.</p><div class="synthesis"><article class="synthesis-main"><div class="small-title">Итоговая тема</div><h4>${synth.heading}</h4><p>${synth.text}</p></article><div class="synthesis-side">${synth.insights.length ? synth.insights.map(text=>`<div class="mini-card"><h4>Сигнал для проверки</h4><p>${text}</p></div>`).join('') : '<div class="mini-card"><h4>Добавьте родителей</h4><p>Тогда система сможет сопоставить числовой и восточный слои каждой линии.</p></div>'}</div></div></section>
 
-        <section class="model-box">
-          <h3>Как читать этот результат</h3>
-          <p>Это не психологический диагноз и не предсказание. Даты в этой системе служат символическим ключом, а итог нужен для наблюдения, разговора с собой и выбора следующего действия.</p>
-          <div class="model-list">
-            <div class="model-item"><strong>Расчёт:</strong> сведение даты к ядру с сохранением 11 и 22.</div>
-            <div class="model-item"><strong>Сопоставление:</strong> семейства A, B, C, D и типы связей между ними.</div>
-            <div class="model-item"><strong>Контекст связи:</strong> выбранный вами режим родительского присутствия; он не вычисляется по дате.</div>
-            <div class="model-item"><strong>Приоритет:</strong> повторяемость семейства, положение личного ядра в карте и выбранный контекст связи.</div>
-          </div>
-        </section>
-      `;
+        <section class="report-section"><h3>Практический фокус</h3><p>Не список из десятков советов, а один шаг, который помогает проверить карту в реальной жизни.</p><article class="practice-card"><div class="practice-copy"><div class="small-title">Фраза-опора</div><h4>«${user.profile.anchor}»</h4></div><div class="practice-side"><p><strong>Один конкретный шаг</strong><br>${user.familyData.practice}</p></div></article></section>
 
-      const reportEl = $('#report');
-      reportEl.innerHTML = report;
-      reportEl.classList.add('is-visible');
-      $('#print-report').addEventListener('click', () => window.print());
-      reportEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        <section class="model-box"><h3>Как устроен этот расчёт</h3><p>Система не предсказывает судьбу и не утверждает биографические факты. Она строит карту сопоставлений: числовое ядро и архетипы, родовые линии, годовой столп Ба-цзы, циклы Ло Кхак и заданный пользователем контекст отношений.</p><div class="model-list"><div class="model-item"><strong>Числовой слой:</strong> редукция даты с сохранением 11 и 22, четыре семейства и сравнение линий.</div><div class="model-item"><strong>Архетипический слой:</strong> ресурс, полярность и вопрос развития для каждого числа.</div><div class="model-item"><strong>Восточный слой:</strong> животное и элемент года, отношения питания, контроля, союза и оппозиции.</div><div class="model-item"><strong>Тибетский слой:</strong> упрощённая таблица Ло Кхак по животному года и будущим циклам.</div></div></section>`;
+      const reportEl=$('#report'); reportEl.innerHTML=report; reportEl.classList.add('is-visible'); $('#print-report').addEventListener('click',()=>window.print()); reportEl.scrollIntoView({behavior:'smooth',block:'start'});
     }
 
-    function capitalize(text) {
-      return text ? text.charAt(0).toUpperCase() + text.slice(1) : '';
-    }
-
-    function readPerson(role, nameSelector, dateSelector) {
-      return buildPerson(role, $(nameSelector).value, $(dateSelector).value);
-    }
-
-    $('#family-form').addEventListener('submit', (event) => {
-      event.preventDefault();
-      const message = $('#form-message');
-      message.textContent = '';
-
-      const userDate = $('#user-date').value;
-      if (!userDate) {
-        message.textContent = 'Введите вашу дату рождения, чтобы построить карту.';
-        $('#user-date').focus();
-        return;
-      }
-
-      const user = readPerson('user', '#user-name', '#user-date');
-      const parentInputs = {
-        mother: buildParentInput('mother', '#mother-name', '#mother-date', '#mother-presence'),
-        father: buildParentInput('father', '#father-name', '#father-date', '#father-presence')
-      };
-      const mother = parentInputs.mother.person;
-      const father = parentInputs.father.person;
-      const grandparents = [
-        readPerson('grandparent', '#mgm-name', '#mgm-date'),
-        readPerson('grandparent', '#mgf-name', '#mgf-date'),
-        readPerson('grandparent', '#pgm-name', '#pgm-date'),
-        readPerson('grandparent', '#pgf-name', '#pgf-date')
-      ].filter(Boolean);
-
-      renderReport(user, mother, father, grandparents, parentInputs);
-    });
-
-    $('#clear-form').addEventListener('click', () => {
-      $('#family-form').reset();
-      $('#form-message').textContent = '';
-      $('#report').classList.remove('is-visible');
-      $('#report').innerHTML = '';
-      $('#user-name').focus();
-    });
+    $('#family-form').addEventListener('submit',(event)=>{ event.preventDefault(); const message=$('#form-message'); message.textContent=''; if(!$('#user-date').value){ message.textContent='Введите вашу дату рождения, чтобы построить карту.'; $('#user-date').focus(); return; }
+      const user=readPerson('user','#user-name','#user-date'); const parentInputs={mother:buildParentInput('mother','#mother-name','#mother-date','#mother-presence'),father:buildParentInput('father','#father-name','#father-date','#father-presence')}; const grandparents=[readPerson('grandparent','#mgm-name','#mgm-date'),readPerson('grandparent','#mgf-name','#mgf-date'),readPerson('grandparent','#pgm-name','#pgm-date'),readPerson('grandparent','#pgf-name','#pgf-date')].filter(Boolean); renderReport(user,parentInputs.mother.person,parentInputs.father.person,grandparents,parentInputs); });
+    $('#clear-form').addEventListener('click',()=>{ $('#family-form').reset(); $('#form-message').textContent=''; $('#report').classList.remove('is-visible'); $('#report').innerHTML=''; $('#user-name').focus(); });
   </script>
 </body>
 </html>
